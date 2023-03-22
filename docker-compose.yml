@@ -1,0 +1,54 @@
+version: "3"
+services:
+  db:
+    image: mysql:8.0.32
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '3306:3306'
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db-data:/var/lib/mysql
+  api:
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    command: bundle exec puma -C config/puma.rb
+    volumes:
+      - ./backend:/sample
+      - public-data:/sample/public
+      - tmp-data:/sample/tmp
+      - log-data:/sample/log
+    depends_on:
+      - db
+  nginx:
+    build:
+      context: ./backend/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - public-data:/sample/public
+      - tmp-data:/sample/tmp
+    ports:
+      - 80:80
+    depends_on:
+      - api
+  web:
+    env_file: ./frontend/react-app/.env
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/usr/src/app
+    environment:
+      - ./frontend/.env
+    command: sh -c "yarn start"
+    # command: sh -c "yarn serve -s build"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+volumes:
+  public-data:
+  tmp-data:
+  log-data:
+  db-data:

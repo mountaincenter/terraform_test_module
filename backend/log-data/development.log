@@ -1,0 +1,36 @@
+  [1m[35m (8.5ms)[0m  [1m[35mCREATE DATABASE `sample_development` DEFAULT CHARACTER SET `utf8mb4`[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE DATABASE `sample_test` DEFAULT CHARACTER SET `utf8mb4`[0m
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE DATABASE `sample_development` DEFAULT CHARACTER SET `utf8mb4`[0m
+  [1m[35m (5.2ms)[0m  [1m[35mCREATE DATABASE `sample_test` DEFAULT CHARACTER SET `utf8mb4`[0m
+Started GET "/" for 172.22.0.1 at 2023-03-21 00:17:15 +0000
+Cannot render console from 172.22.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /usr/local/bundle/gems/railties-7.0.4.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/local/bundle/gems/railties-7.0.4.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 10.7ms | Allocations: 605)
+Completed 200 OK in 97ms (Views: 39.1ms | ActiveRecord: 0.0ms | Allocations: 5006)
+
+
+Started GET "/" for 172.24.0.1 at 2023-03-21 02:48:21 +0000
+Cannot render console from 172.24.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /usr/local/bundle/gems/railties-7.0.4.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/local/bundle/gems/railties-7.0.4.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 22.6ms | Allocations: 605)
+Completed 200 OK in 276ms (Views: 122.0ms | ActiveRecord: 0.0ms | Allocations: 5049)
+
+
+Started GET "/" for 172.24.0.1 at 2023-03-21 02:48:23 +0000
+Cannot render console from 172.24.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /usr/local/bundle/gems/railties-7.0.4.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/local/bundle/gems/railties-7.0.4.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 2.8ms | Allocations: 257)
+Completed 200 OK in 13ms (Views: 8.8ms | ActiveRecord: 0.0ms | Allocations: 782)
+
+
+Started GET "/" for 172.24.0.1 at 2023-03-21 10:05:16 +0000
+Cannot render console from 172.24.0.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /usr/local/bundle/gems/railties-7.0.4.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/local/bundle/gems/railties-7.0.4.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 10.3ms | Allocations: 605)
+Completed 200 OK in 130ms (Views: 44.8ms | ActiveRecord: 0.0ms | Allocations: 5049)
+
+
