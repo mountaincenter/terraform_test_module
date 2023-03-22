@@ -36,11 +36,11 @@ jobs:
 
     - name: modify task-definition json file
       run: |
-        sed -i 's/${db_host}/${{ env.db_host }}/g' ecs/task-definition.json
-        sed -i 's/${db_name}/${{ env.db_name }}/g' ecs/task-definition.json
-        sed -i 's/${db_password}/${{ env.db_password }}/g' ecs/task-definition.json
-        sed -i 's/${db_username}/${{ env.db_username }}/g' ecs/task-definition.json
-        sed -i 's/${rails_master_key}/${{ env.rails_master_key }}/g' ecs/task-definition.json
+        sed -i 's/${db_host}/${{ env.db_host }}/g' backend/ecs/task-definition.json
+        sed -i 's/${db_name}/${{ env.db_name }}/g' backend/ecs/task-definition.json
+        sed -i 's/${db_password}/${{ env.db_password }}/g' backend/ecs/task-definition.json
+        sed -i 's/${db_username}/${{ env.db_username }}/g' backned/ecs/task-definition.json
+        sed -i 's/${rails_master_key}/${{ env.rails_master_key }}/g' backend/ecs/task-definition.json
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
