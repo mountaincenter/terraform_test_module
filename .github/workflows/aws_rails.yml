@@ -36,9 +36,7 @@ jobs:
 
     - working-directory: ./backend
       run: |
-        mkdir vendor/javascript
-        mkdir app/javascript
-        mkdir app/assets/{images,stylesheets}
+        mkdir vendor/javascript app/javascript app/assets/{images,stylesheets}
         ls -al app
         ls -al app/assets
         ls -al vendor
