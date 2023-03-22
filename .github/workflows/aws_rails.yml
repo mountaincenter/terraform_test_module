@@ -41,60 +41,59 @@ jobs:
         ls -al app/assets
         ls -al vendor
 
-    # - name: modify task-definition json file
-    #   working-directory: ./backend
-    #   run: |
-    #     sed -i 's/${db_host}/${{ env.db_host }}/g' ecs/task-definition.json
-    #     sed -i 's/${db_name}/${{ env.db_name }}/g' ecs/task-definition.json
-    #     sed -i 's/${db_password}/${{ env.db_password }}/g' ecs/task-definition.json
-    #     sed -i 's/${db_username}/${{ env.db_username }}/g' ecs/task-definition.json
-    #     sed -i 's/${rails_master_key}/${{ env.rails_master_key }}/g' ecs/task-definition.json
+    - name: modify task-definition json file
+      working-directory: ./backend
+      run: |
+        sed -i 's/${db_host}/${{ env.db_host }}/g' ecs/task-definition.json
+        sed -i 's/${db_name}/${{ env.db_name }}/g' ecs/task-definition.json
+        sed -i 's/${db_password}/${{ env.db_password }}/g' ecs/task-definition.json
+        sed -i 's/${db_username}/${{ env.db_username }}/g' ecs/task-definition.json
+        sed -i 's/${rails_master_key}/${{ env.rails_master_key }}/g' ecs/task-definition.json
 
-    # - name: Set up Docker Buildx
-    #   uses: docker/setup-buildx-action@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-    # - uses: actions/cache@v2
-    #   with:
-    #     path: /tmp/.buildx-cache
-    #     key: ${{ runner.os }}-buildx-${{ github.sha }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-buildx-
+    - uses: actions/cache@v2
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
 
-    # - name: Assume Role
-    #   uses: aws-actions/configure-aws-credentials@v2
-    #   with:
-    #     role-to-assume: ${{ env.OIDC_ARN }}
-    #     aws-region: ap-northeast-1
+    - name: Assume Role
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ env.OIDC_ARN }}
+        aws-region: ap-northeast-1
 
-    # - name: Login to Amazon ECR
-    #   id: login-ecr
-    #   uses: aws-actions/amazon-ecr-login@v1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
 
-    # - name: Build, tag, and push image to Amazon ECR
-    #   id: build-image
-    #   working-directory: ./backend
-    #   env:
-    #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-    #     ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
-    #     IMAGE_TAG: ${{ github.sha }}
-    #   run: |
-    #     mkdir vendor/javascript
-    #     mkdir app/assets/{images,stylesheets}
-    #     docker build -f ecs/Dockerfile . -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-    #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-    #     echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      working-directory: ./backend
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        mkdir vendor/javascript app/javascript app/assets/{images,stylesheets}
+        docker build -f ecs/Dockerfile . -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-    # - name: Fill in the new image ID in the Amazon ECS task definition
-    #   id: task-def
-    #   uses: aws-actions/amazon-ecs-render-task-definition@v1
-    #   with:
-    #     task-definition: ecs/task-definition.json
-    #     container-name: ${{ env.CONTINER_NAME }}
-    #     image: ${{ steps.build-image.outputs.image }}
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ecs/task-definition.json
+        container-name: ${{ env.CONTINER_NAME }}
+        image: ${{ steps.build-image.outputs.image }}
 
-    # - name: Deploy Amazon ECS task definition
-    #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-    #   with:
-    #     task-definition: ${{ steps.task-def.outputs.task-definition }}
-    #     service: ${{ env.SERVICE }}
-    #     cluster: ${{ env.CLUSTER }}
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.SERVICE }}
+        cluster: ${{ env.CLUSTER }}
