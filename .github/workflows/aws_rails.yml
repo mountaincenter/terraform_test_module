@@ -36,8 +36,7 @@ jobs:
 
     - working-directory: ./backend
       run: |
-        ls -al
-        ls -al app
+        ls -al app/assets
 
     # - name: modify task-definition json file
     #   working-directory: ./backend
