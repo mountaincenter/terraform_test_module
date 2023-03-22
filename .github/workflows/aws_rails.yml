@@ -39,7 +39,7 @@ jobs:
         mkdir vendor/javascript
         mkdir app/javascript
         mkdir app/assets/{images,stylesheets}
-        ls -al
+        ls -al app
         ls -al app/assets
         ls -al vendor
 
