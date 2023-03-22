@@ -28,11 +28,11 @@ jobs:
           node-version: 18.15.0
 
       - name: Install Dependencies
-        working-directory: ./frontend
+        working-directory: ./frontend/react-app
         run: yarn install
 
       - name: React Build
-        working-directory: ./frontend
+        working-directory: ./frontend/react-app
         run: yarn build
 
       - name: Setup tfcmt
