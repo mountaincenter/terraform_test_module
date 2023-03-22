@@ -34,7 +34,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - run: cat backend/ecs/task-definition.json
+    - working-directory: ./backend
+      run: cat ecs/task-definition.json
 
     - run: |
         sed -i 's/${db_host}/${{ env.db_host }}/g' backend/ecs/task-definition.json
