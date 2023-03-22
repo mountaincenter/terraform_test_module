@@ -1,0 +1,9 @@
+variable "r_prefix" {}
+variable "db_host" {}
+variable "db_name" {}
+variable "db_password" {}
+variable "db_username" {}
+variable "rails_master_key" {}
+variable "target_group_arn" {}
+variable "public_subnet_ids" {}
+variable "security_group" {}
