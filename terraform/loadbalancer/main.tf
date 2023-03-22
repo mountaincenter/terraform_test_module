@@ -9,9 +9,9 @@ resource "aws_lb" "sample_lb" {
   internal                   = false
   enable_deletion_protection = false
 
-  # access_logs {
-  #   bucket = var.alb_logs
-  # }
+  access_logs {
+    bucket = aws_s3_bucket.sample_lb_logs.bucket
+  }
 }
 
 resource "aws_lb_target_group" "sample_lb_tg" {
@@ -25,7 +25,7 @@ resource "aws_lb_target_group" "sample_lb_tg" {
 
   health_check {
     interval            = 30
-    path                = "/"
+    path                = "/health_check"
     port                = "traffic-port"
     protocol            = "HTTP"
     timeout             = 5
@@ -103,4 +103,11 @@ resource "aws_lb_listener" "sample_lb_listener_https" {
   depends_on = [
     var.acm_certificate_validation
   ]
+}
+
+# =====================
+# S3 Loadbalancer Log
+# =====================
+resource "aws_s3_bucket" "sample_lb_logs" {
+  bucket = "${var.r_prefix}-lb-logs-yam"
 }

@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react"
+import { TodoList } from "./components/TodoList"
+import { TodoForm } from "./components/TodoForm"
 
-function App() {
+import { getTodos } from "./lib/api/todos"
+import { Todo} from "./interfaces/index"
+
+
+const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([])
+
+  const handleGetTodos = async () => {
+    try {
+      const res = await getTodos()
+      console.log(res)
+
+      if (res?.status === 200) {
+        setTodos(res.data.todos)
+      } else {
+        console.log(res.data.message)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    handleGetTodos()
+  }, [])
+  console.log(process.env.REACT_APP_NODE_ENV)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <h1>Todo App</h1>
+      <p>{process.env.REACT_APP_NODE_ENV}</p>
+      <TodoForm todos={todos} setTodos={setTodos} />
+      <TodoList todos={todos} setTodos={setTodos} />
+    </>
+  )
 }
 
-export default App;
+export default App

@@ -16,7 +16,13 @@ resource "aws_ecs_task_definition" "sample_app_nginx" {
   execution_role_arn       = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ecs-task-role"
   cpu                      = 512
   memory                   = 1024
-  container_definitions    = file("./ecs/app-nginx.json")
+  container_definitions = templatefile("./ecs/app-nginx.json", {
+    db_host          = var.db_host
+    db_name          = var.db_name
+    db_password      = var.db_password
+    db_username      = var.db_username
+    rails_master_key = var.rails_master_key
+  })
 }
 
 resource "aws_ecs_service" "sample_service" {
