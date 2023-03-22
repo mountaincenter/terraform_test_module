@@ -22,6 +22,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.15.0
+
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: yarn install
+
       - name: React Build
         working-directory: ./frontend
         run: yarn build
