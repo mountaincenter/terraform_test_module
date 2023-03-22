@@ -37,6 +37,7 @@ jobs:
     - working-directory: ./backend
       run: |
         ls -al app/assets/config
+        cat app/assets/config/manifest.js
 
     # - name: modify task-definition json file
     #   working-directory: ./backend
