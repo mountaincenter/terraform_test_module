@@ -34,7 +34,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - run: ls -al
+    - run: |
+        ls -al
+        cd backend
+        ls -al
 
     # - name: modify task-definition json file
     #   run: |
