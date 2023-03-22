@@ -8,7 +8,7 @@ on:
 name: Deploy to Amazon CloudFront
 
 env:
-  OIDC_ARN: ${{ secret.AWS_OIDC_ARN }}
+  OIDC_ARN: ${{ secrets.AWS_OIDC_ARN }}
 
 permissions:
   id-token: write
