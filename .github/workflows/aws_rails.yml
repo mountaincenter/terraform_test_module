@@ -16,7 +16,7 @@ env:
   rails_master_key: ${{ secrets.RAILS_MASTER_KEY }}
   ECR_REPOSITORY: "test-app"
   CONTINER_NAME: "app"
-  SERVICE: "test-service"
+  SERVICE: "sample-service"
   CLUSTER: "test-cluster"
 
 permissions:
