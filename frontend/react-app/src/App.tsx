@@ -31,6 +31,7 @@ const App: React.FC = () => {
   return (
     <>
       <h1>Todo App</h1>
+      <p>Deploment GitHubactions</p>
       <p>{process.env.REACT_APP_NODE_ENV}</p>
       <TodoForm todos={todos} setTodos={setTodos} />
       <TodoList todos={todos} setTodos={setTodos} />
