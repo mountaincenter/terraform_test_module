@@ -34,13 +34,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - working-directory: ./backend
-      run: |
-        mkdir vendor/javascript app/javascript app/assets/{images,stylesheets}
-        ls -al app
-        ls -al app/assets
-        ls -al vendor
-
     - name: modify task-definition json file
       working-directory: ./backend
       run: |
