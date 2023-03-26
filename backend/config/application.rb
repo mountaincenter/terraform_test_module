@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "boot"
 
 require "rails"
@@ -19,6 +21,9 @@ require "action_cable/engine"
 Bundler.require(*Rails.groups)
 
 module Sample
+  #
+  # Application class
+  #
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
@@ -35,5 +40,12 @@ module Sample
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    config.generators do |g|
+      g.test_framework :rspec,
+                       view_specs: false,
+                       helpers_specs: false,
+                       controller_specs: false,
+                       routing_specs: false
+    end
   end
 end
