@@ -1,3 +1,6 @@
+# =====================
+# Loadbalancer
+# =====================
 resource "aws_lb" "sample_lb" {
   name            = "${var.r_prefix}-alb"
   security_groups = [var.security_group]
@@ -14,6 +17,7 @@ resource "aws_lb" "sample_lb" {
   }
 }
 
+###### Target Group ######
 resource "aws_lb_target_group" "sample_lb_tg" {
   name                 = "${var.r_prefix}-lb-tg"
   port                 = 80
@@ -35,6 +39,7 @@ resource "aws_lb_target_group" "sample_lb_tg" {
   }
 }
 
+###### Listener ######
 resource "aws_lb_listener" "sample_lb_listener" {
   port     = "80"
   protocol = "HTTP"
@@ -73,6 +78,7 @@ resource "aws_lb_listener" "sample_lb_listener" {
 #   }
 # }
 
+###### Listener Rule ######
 resource "aws_lb_listener_rule" "sample_lb_listener_rule" {
   depends_on   = [aws_lb_target_group.sample_lb_tg]
   listener_arn = aws_lb_listener.sample_lb_listener.arn
@@ -90,6 +96,7 @@ resource "aws_lb_listener_rule" "sample_lb_listener_rule" {
   }
 }
 
+###### Listener HTTPS ######
 resource "aws_lb_listener" "sample_lb_listener_https" {
   load_balancer_arn = aws_lb.sample_lb.arn
   certificate_arn   = var.acm_certificate_arn

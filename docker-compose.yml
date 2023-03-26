@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   db:
     image: mysql:8.0.32
@@ -44,7 +44,7 @@ services:
     command: sh -c "yarn start"
     # command: sh -c "yarn serve -s build"
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - api
 volumes:
