@@ -2,9 +2,21 @@ AllCops:
   Exclude:
     - bin/*
     - db/schema.rb
+    - db/migrate/**/*
+    - config/initializers/devise.rb
 
 AsciiComments:
   Enabled: false
 
 StringLiterals:
   EnforcedStyle: double_quotes
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+    - config/**/*
+    - db/**/*
+    - Rakefile
+    - Guardfile
+    - Capfile
+    - config.ru
