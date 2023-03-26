@@ -34,9 +34,17 @@ module "acm_frontend" {
 module "cloudfront" {
   source             = "./cloudfront"
   r_prefix           = var.r_prefix
-  fqdn_name          = local.fqdn.web_name
+  alb_id             = module.alb.alb_id
+  fqdn_web_name      = local.fqdn.web_name
+  fqdn_api_name      = local.fqdn.api_name
   bucket_name        = local.bucket.name
   acm_certificate_id = module.acm_frontend.acm_certificate_id
+  wafrule_arn        = module.waf.wafrule_arn
+}
+
+module "waf" {
+  source   = "./waf"
+  r_prefix = var.r_prefix
 }
 
 module "acm_backend" {
