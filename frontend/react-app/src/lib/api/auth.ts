@@ -1,48 +1,30 @@
-import client from './client';
+import client, { auth } from './client';
 import Cookies from 'js-cookie';
 
 import { type SignUpData, type SignInData } from 'interfaces';
 
+// サインアップ（アカウント新規作成）
 export const signUp = async (data: SignUpData): Promise<any> => {
   return await client.post('auth', data);
 };
 
+// サインイン（ログイン）
 export const signIn = async (data: SignInData): Promise<any> => {
   return await client.post('auth/sign_in', data);
 };
 
+// サインアウト（ログアウト）
 export const signOut = async (): Promise<any> => {
-  const accessToken = Cookies.get('_access-token');
-  const clientInstance = Cookies.get('_client');
-  const uid = Cookies.get('_uid');
-
-  if (accessToken != null && clientInstance != null && uid != null) {
-    return await client.delete('auth/sign_out', {
-      headers: {
-        'access-token': accessToken,
-        client: clientInstance,
-        uid,
-      },
-    });
-  } else {
-    throw new Error('Missing required cookies');
-  }
+  return await client.delete('auth/sign_out', auth);
 };
 
+// 認証済みのユーザーを取得（currentUser）
 export const getCurrentUser = async (): Promise<any> => {
-  const accessToken = Cookies.get('_access-token');
-  const clientInstance = Cookies.get('_client');
-  const uid = Cookies.get('_uid');
-
-  if (accessToken != null && clientInstance != null && uid != null) {
-    return await client.get('/auth/sessions', {
-      headers: {
-        'access-token': accessToken,
-        client: clientInstance,
-        uid,
-      },
-    });
-  } else {
-    throw new Error('Missing required cookies');
-  }
+  if (
+    Cookies.get('_access_token') === '' ||
+    Cookies.get('_client') === '' ||
+    Cookies.get('_uid') === ''
+  )
+    return;
+  return await client.get('auth/sessions', auth);
 };

@@ -23,7 +23,7 @@ const SignIn: React.FC = () => {
   const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false);
 
   const handleSubmit = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e: React.MouseEvent<HTMLButtonElement>
   ): Promise<void> => {
     e.preventDefault();
 
@@ -36,9 +36,9 @@ const SignIn: React.FC = () => {
       const res = await signIn(params);
 
       if (res.status === 200) {
-        Cookies.set('_access_token', res.headers['access-token']);
-        Cookies.set('_client', res.headers.client);
-        Cookies.set('_uid', res.headers.uid);
+        Cookies.set('_access_token', res.headers['access-token'] ?? '');
+        Cookies.set('_client', res.headers.client ?? '');
+        Cookies.set('_uid', res.headers.uid ?? '');
 
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
@@ -53,13 +53,6 @@ const SignIn: React.FC = () => {
       console.log(err);
       setAlertMessageOpen(true);
     }
-  };
-
-  const handleClick = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): Promise<void> => {
-    event.preventDefault();
-    await handleSubmit(event);
   };
 
   return (
@@ -101,7 +94,9 @@ const SignIn: React.FC = () => {
               color='inherit'
               disabled={email === '' || password === ''}
               sx={{ marginTop: 2, flexGrow: 1, textTransform: 'none' }}
-              onClick={() => handleClick}
+              onClick={(e) => {
+                void handleSubmit(e);
+              }}
             >
               ログイン
             </Button>

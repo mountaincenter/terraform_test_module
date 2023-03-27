@@ -13,6 +13,7 @@ const Header: React.FC = () => {
   const handleSignOut = async (
     e: React.MouseEvent<HTMLButtonElement>
   ): Promise<void> => {
+    e.preventDefault();
     try {
       const res = await signOut();
       if (res.data.success === true) {
@@ -44,7 +45,9 @@ const Header: React.FC = () => {
             <Button
               color='inherit'
               sx={{ textTransform: 'none' }}
-              onClick={() => handleSignOut}
+              onClick={(e) => {
+                void handleSignOut(e);
+              }}
             >
               Sign out
             </Button>
