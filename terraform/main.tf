@@ -68,6 +68,8 @@ module "ecr_app" {
 module "ecs" {
   source            = "./ecs"
   r_prefix          = var.r_prefix
+  image_app         = module.ecr_app.ecr_image_url
+  image_nginx       = module.ecr_nginx.ecr_image_url
   db_host           = module.rds.db_host
   db_name           = var.db_name
   db_password       = var.db_password

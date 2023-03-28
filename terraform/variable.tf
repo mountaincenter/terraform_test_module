@@ -12,7 +12,7 @@ variable "rails_master_key" {}
 variable "domain_name" {}
 # 作成するリソースのプレフィックス
 variable "r_prefix" {
-  default = "test"
+  default = "sample"
 }
 
 locals {

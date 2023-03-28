@@ -1,4 +1,6 @@
 variable "r_prefix" {}
+variable "image_app" {}
+variable "image_nginx" {}
 variable "db_host" {}
 variable "db_name" {}
 variable "db_password" {}

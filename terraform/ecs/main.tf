@@ -17,6 +17,9 @@ resource "aws_ecs_task_definition" "sample_app_nginx" {
   cpu                      = 512
   memory                   = 1024
   container_definitions = templatefile("./ecs/app-nginx.json", {
+    r_prefix         = var.r_prefix
+    image_app        = var.image_app
+    image_nginx      = var.image_nginx
     db_host          = var.db_host
     db_name          = var.db_name
     db_password      = var.db_password
