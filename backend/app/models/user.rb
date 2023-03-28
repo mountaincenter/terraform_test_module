@@ -12,4 +12,6 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true, length: { maximum: 30 }
   validates :email, presence: true, length: { maximum: 100 }
+
+  has_many :posts, dependent: :destroy
 end
