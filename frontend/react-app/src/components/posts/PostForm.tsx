@@ -14,54 +14,63 @@ const borderStyles = {
 };
 
 interface PostFormProps {
-  handleGetPosts: Function;
+  handleGetPosts: () => void;
 }
 
-const PostForm = ({ handleGetPosts }: PostFormProps) => {
+const PostForm: React.FC<PostFormProps> = ({ handleGetPosts }) => {
   const { currentUser } = useContext(AuthContext);
   const [content, setContent] = useState<string>('');
   const [images, setImages] = useState<File[]>([]);
-  const [isContentSending, setIsContentSending] = useState(false);
+  const [isContentSending, setIsContentSending] = useState<boolean>(false);
 
   const createFormData = (): FormData => {
     const formData = new FormData();
-    if (images)
-      images.map((image) => {
+    if (images != null) {
+      images.forEach((image) => {
         formData.append('images[]', image);
       });
+    }
     formData.append('content', content);
-    formData.append('user.id', `${currentUser?.id}`);
+    formData.append('user.id', `${currentUser?.id ?? ''}`);
     return formData;
   };
 
-  const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsContentSending(true);
+  const handleCreatePost = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+      e.preventDefault();
+      setIsContentSending(true);
 
-    const data = createFormData();
-    await createPost(data).then(() => {
+      const data = createFormData();
+      await createPost(data);
       setContent('');
       setImages([]);
       handleGetPosts();
-    });
 
-    setIsContentSending(false);
-  };
+      setIsContentSending(false);
+    },
+    [content, currentUser?.id, handleGetPosts, images]
+  );
 
-  const uploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    setImages([...images, ...e.target.files]);
-  }, []);
+  const uploadImage = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files == null) return;
+      setImages([...images, ...Array.from(e.target.files)]);
+    },
+    [images]
+  );
 
-  const handleOnRemoveImage = (index: number) => {
-    const newImages = [...images];
-    newImages.splice(index, 1);
-    setImages(newImages);
-  };
+  const handleOnRemoveImage = useCallback(
+    (index: number) => {
+      const newImages = [...images];
+      newImages.splice(index, 1);
+      setImages(newImages);
+    },
+    [images]
+  );
 
   return (
     <>
-      <form action='' onSubmit={handleCreatePost}>
+      <form onSubmit={() => handleCreatePost}>
         <TextField
           name='content'
           placeholder='Hello World'
@@ -82,9 +91,9 @@ const PostForm = ({ handleGetPosts }: PostFormProps) => {
             id='icon-button-file'
             type='file'
             multiple
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              uploadImage(e)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              uploadImage(e);
+            }}
           />
           <label htmlFor='icon-button-file'>
             <IconButton color='inherit' component='span'>
@@ -101,7 +110,7 @@ const PostForm = ({ handleGetPosts }: PostFormProps) => {
               variant='contained'
               size='large'
               color='inherit'
-              disabled={!content || content.length > 140}
+              disabled={content === '' || content.length > 140}
               sx={{ marginTop: '10px', marginLeft: 'auto' }}
             >
               Post
@@ -120,7 +129,12 @@ const PostForm = ({ handleGetPosts }: PostFormProps) => {
             margin: '2rem 0 4rem',
           }}
         >
-          <IconButton color='inherit' onClick={() => handleOnRemoveImage(i)}>
+          <IconButton
+            color='inherit'
+            onClick={() => {
+              handleOnRemoveImage(i);
+            }}
+          >
             <CancelIcon />
           </IconButton>
           <img
