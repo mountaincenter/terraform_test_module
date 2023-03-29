@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Grid } from '@mui/material';
 
 import PostForm from './PostForm';
 import PostItem from './PostItem';
 import { getPosts } from 'lib/api/posts';
-import { Post } from 'interfaces';
+import { type Post } from 'interfaces';
 
-const PostList: React.FC = () => {
+const PostList: React.FC = (): JSX.Element => {
   const [posts, setPosts] = React.useState<Post[]>([]);
-  const handleGetPosts = async () => {
+  const handleGetPosts = async (): Promise<void> => {
     const { data } = await getPosts();
     setPosts(data.posts);
     console.log(data.posts);
   };
   useEffect(() => {
-    handleGetPosts();
+    void handleGetPosts();
   }, []);
 
   return (
@@ -22,13 +22,13 @@ const PostList: React.FC = () => {
       <Container maxWidth='xl' sx={{ marginTop: '3rem' }}>
         <Grid container direction='row' justifyContent='center' spacing={0.5}>
           <Grid item>
-            <PostForm handleGetPosts={handleGetPosts} />
+            <PostForm handleGetPosts={() => handleGetPosts} />
             {posts?.map((post: Post) => {
               return (
                 <PostItem
                   key={post.id}
                   post={post}
-                  handleGetPosts={handleGetPosts}
+                  handleGetPosts={() => handleGetPosts}
                 />
               );
             })}

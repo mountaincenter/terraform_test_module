@@ -1,15 +1,15 @@
-import { AxiosPromise } from 'axios';
+import { type AxiosPromise } from 'axios';
 import client from './client';
-import { PostApiJson } from 'interfaces';
+import { type PostApiJson } from 'interfaces';
 
-export const getPosts = (): AxiosPromise<PostApiJson> => {
-  return client.get('/posts');
+export const getPosts = async (): AxiosPromise<PostApiJson> => {
+  return await client.get('/posts');
 };
 
-export const createPost = (data: FormData): AxiosPromise => {
-  return client.post('/posts', data);
+export const createPost = async (data: FormData): AxiosPromise => {
+  return await client.post('/posts', data);
 };
 
-export const deletePost = (id: string): AxiosPromise => {
-  return client.delete(`/posts/${id}`);
+export const deletePost = async (id: string): AxiosPromise => {
+  return await client.delete(`/posts/${id}`);
 };
