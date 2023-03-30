@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :post do
-    content { Faker::Lorem.sentence }
+    content { "MyContent" }
     user
   end
 end
