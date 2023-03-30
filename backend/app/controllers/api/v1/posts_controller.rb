@@ -21,7 +21,7 @@ module Api
       end
 
       def create
-        post = Post.new(post_params)
+        post = current_api_v1_user.posts.new(post_params)
         if post.save
           render json: post
         else
