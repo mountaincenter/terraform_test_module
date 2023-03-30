@@ -84,6 +84,7 @@ const App: React.FC = () => {
           <CommonLayout>
             <Routes>
               <Route path='/' element={<Private>{<Home />}</Private>} />
+              {/* <Route path='/' element={<Home />} /> */}
               <Route path='/signin' element={<SignIn />} />
               <Route path='/signup' element={<SignUp />} />
             </Routes>

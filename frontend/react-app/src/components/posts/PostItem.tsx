@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { AuthContext } from 'App';
 import {
   Card,
   CardContent,
@@ -12,6 +14,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { type Post } from 'interfaces';
 
 import { deletePost } from 'lib/api/posts';
+
+import Header from './Header';
+import CarouselImage from './CarouselImage';
 
 const CardStyles = {
   width: 400,
@@ -30,6 +35,7 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
+  const currentUser = useContext(AuthContext);
   const handleDeletePost = (id: string): void => {
     deletePost(id)
       .then(() => {
@@ -39,16 +45,19 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
         console.error(error);
       });
   };
+  console.log(currentUser.currentUser);
 
   return (
     <>
       <Card sx={{ ...CardStyles }}>
+        <Header post={post} currentUser={currentUser} />
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='span'>
             {post.content.split('\n').map((body: string, index: number) => {
               return <p key={index}>{body}</p>;
             })}
           </Typography>
+          <CarouselImage post={post} />
         </CardContent>
         <CardActions disableSpacing>
           <IconButton
