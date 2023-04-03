@@ -19,6 +19,8 @@ export interface User {
   nickname?: string;
   image?: string;
   allowPasswordChange: boolean;
+  createdAt?: Date;
+  updateAt?: Date;
 }
 
 export interface Post {

@@ -2,16 +2,17 @@ import { CardHeader, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Avatar from 'boring-avatars';
-import { formatDistance, format } from 'date-fns';
+import { formatDistance } from 'date-fns';
 import { ja } from 'date-fns/locale';
-import { type Post, type User } from 'interfaces';
+import { type Post } from 'interfaces';
+import { type AuthContextType } from 'App';
 
 interface HeaderProps {
   post: Post;
-  currentUser?: User;
+  currentUser: AuthContextType['currentUser'];
 }
 
-const Header: React.FC<HeaderProps> = ({ post, currentUser }) => {
+const Header: React.FC<HeaderProps> = ({ post, currentUser }: HeaderProps) => {
   return (
     <>
       <CardHeader
@@ -27,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ post, currentUser }) => {
         }
         title={
           <>
-            {post.user.id === currentUser?.id ? (
+            {currentUser?.id && post.user.id === currentUser.id ? (
               <>{post.user.name}</>
             ) : (
               <Link style={{ textDecoration: 'none' }} to='#'>

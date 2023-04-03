@@ -45,7 +45,6 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
         console.error(error);
       });
   };
-  console.log(currentUser.currentUser);
 
   return (
     <>
