@@ -35,21 +35,21 @@ const PostForm: React.FC<PostFormProps> = ({ handleGetPosts }) => {
     return formData;
   };
 
-  const handleCreatePost = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-      e.preventDefault();
-      setIsContentSending(true);
+  const handleCreatePost = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault();
+    setIsContentSending(true);
 
-      const data = createFormData();
-      await createPost(data);
+    const data = createFormData();
+    await createPost(data).then(() => {
       setContent('');
       setImages([]);
       handleGetPosts();
+    });
 
-      setIsContentSending(false);
-    },
-    [content, currentUser?.id, handleGetPosts, images]
-  );
+    setIsContentSending(false);
+  };
 
   const uploadImage = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,18 +59,19 @@ const PostForm: React.FC<PostFormProps> = ({ handleGetPosts }) => {
     [images]
   );
 
-  const handleOnRemoveImage = useCallback(
-    (index: number) => {
-      const newImages = [...images];
-      newImages.splice(index, 1);
-      setImages(newImages);
-    },
-    [images]
-  );
+  const handleOnRemoveImage = (index: number): void => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
+  };
 
   return (
     <>
-      <form onSubmit={() => handleCreatePost}>
+      <form
+        onSubmit={(e) => {
+          void handleCreatePost(e);
+        }}
+      >
         <TextField
           name='content'
           placeholder='Hello World'

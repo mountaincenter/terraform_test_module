@@ -21,7 +21,7 @@ module Api
       end
 
       def create
-        post = current_api_v1_user.posts.new(post_params)
+        post = Post.new(post_params)
         if post.save
           render json: post
         else
@@ -36,13 +36,13 @@ module Api
 
       private
 
-      def set_post
-        @post = Post.find(params[:id])
-      end
+        def set_post
+          @post = Post.find(params[:id])
+        end
 
-      def post_params
-        params.permit(:content, { images: [] }, :user_id)
-      end
+        def post_params
+          params.permit(:content, { images: [] }, :user_id)
+        end
     end
   end
 end
