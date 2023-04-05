@@ -4,6 +4,8 @@ import PostList from 'components/posts/PostList';
 
 const Home: React.FC = () => {
   const { isSignedIn, currentUser } = useContext(AuthContext);
+  console.log(currentUser);
+  console.log(isSignedIn);
   return (
     <>
       {isSignedIn && currentUser != null ? (
