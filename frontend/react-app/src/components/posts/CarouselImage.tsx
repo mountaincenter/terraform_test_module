@@ -9,7 +9,6 @@ interface PostItemProps {
 }
 
 const CarouselImage: React.FC<PostItemProps> = ({ post }: PostItemProps) => {
-  console.log(post.images);
   return (
     <>
       {post.images.length > 0 ? (

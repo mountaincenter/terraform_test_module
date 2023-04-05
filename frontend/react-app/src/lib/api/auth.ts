@@ -31,5 +31,5 @@ export const getCurrentUser = async (): Promise<any> => {
 
 // ゲストユーザーでサインイン
 export const guestSignIn = async (): Promise<any> => {
-  return await client.post('auth/sessions/guest_sign_in');
+  return await client.post('auth/sessions/guest_sign_in', auth);
 };

@@ -34,7 +34,8 @@ const SignIn: React.FC = () => {
 
     try {
       const res = await signIn(params);
-
+      console.log(res);
+      console.log(res.headers['access-token']);
       if (res.status === 200) {
         Cookies.set('_access_token', res.headers['access-token'] ?? '');
         Cookies.set('_client', res.headers.client ?? '');
@@ -44,7 +45,6 @@ const SignIn: React.FC = () => {
         setCurrentUser(res.data.data);
 
         navigate('/');
-
         console.log('Signed in successfully!');
       } else {
         setAlertMessageOpen(true);
@@ -61,6 +61,7 @@ const SignIn: React.FC = () => {
     try {
       const res = await guestSignIn();
       console.log(res);
+      console.log(res.headers['access-token']);
       if (res.status === 200) {
         Cookies.set('_access_token', res.headers['access-token'] ?? '');
         Cookies.set('_client', res.headers.client ?? '');
@@ -68,6 +69,7 @@ const SignIn: React.FC = () => {
         setIsSignedIn(true);
         setCurrentUser(res.data.user);
         navigate('/');
+        console.log(res.data.data);
         console.log('Signed in successfully!');
       } else {
         setAlertMessageOpen(true);

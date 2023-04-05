@@ -59,7 +59,7 @@ const PostForm: React.FC<PostFormProps> = ({ handleGetPosts }) => {
     [images]
   );
 
-  const handleOnRemoveImage = (index: number) => {
+  const handleOnRemoveImage = (index: number): void => {
     const newImages = [...images];
     newImages.splice(index, 1);
     setImages(newImages);
@@ -67,7 +67,11 @@ const PostForm: React.FC<PostFormProps> = ({ handleGetPosts }) => {
 
   return (
     <>
-      <form onSubmit={() => handleCreatePost}>
+      <form
+        onSubmit={(e) => {
+          void handleCreatePost(e);
+        }}
+      >
         <TextField
           name='content'
           placeholder='Hello World'

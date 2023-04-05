@@ -11,7 +11,7 @@ const PostList: React.FC = (): JSX.Element => {
   const handleGetPosts = async (): Promise<void> => {
     const { data } = await getPosts();
     setPosts(data.posts);
-    console.log(data.posts);
+    // console.log(data.posts);
   };
   useEffect(() => {
     void handleGetPosts();
