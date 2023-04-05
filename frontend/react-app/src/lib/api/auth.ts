@@ -28,3 +28,8 @@ export const getCurrentUser = async (): Promise<any> => {
     return;
   return await client.get('auth/sessions', auth);
 };
+
+// ゲストユーザーでサインイン
+export const guestSignIn = async (): Promise<any> => {
+  return await client.post('auth/sessions/guest_sign_in');
+};

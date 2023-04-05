@@ -14,6 +14,11 @@ module Api
             render json: { status: 500, message: "ユーザーが存在しません" }
           end
         end
+
+        def guest_sign_in
+          user = User.guest
+          render json: { status: 200, user:, message: "ゲストユーザーでログインしました" }
+        end
       end
     end
   end

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
       namespace :auth do
         resources :sessions, only: %i[index]
+        post "sessions/guest_sign_in", to: "sessions#guest_sign_in"
       end
       resources :posts, only: %i[index create destroy show]
     end
