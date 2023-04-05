@@ -1,7 +1,7 @@
-import { useContext } from 'react';
-import { AuthContext } from 'App';
+import Avatar from 'boring-avatars';
 import {
   Card,
+  CardHeader,
   CardContent,
   CardActions,
   IconButton,
@@ -10,12 +10,15 @@ import {
 } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import { type Post } from 'interfaces';
 
+import { formatDistance } from 'date-fns';
+import { ja } from 'date-fns/locale';
+
 import { deletePost } from 'lib/api/posts';
 
-import Header from './Header';
 import CarouselImage from './CarouselImage';
 
 const CardStyles = {
@@ -35,7 +38,6 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
-  const currentUser = useContext(AuthContext);
   const handleDeletePost = (id: string): void => {
     deletePost(id)
       .then(() => {
@@ -49,7 +51,18 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
   return (
     <>
       <Card sx={{ ...CardStyles }}>
-        <Header post={post} currentUser={currentUser} />
+        <CardHeader
+          avatar={<Avatar name={post.user.name} variant='beam' />}
+          actions={
+            <IconButton>
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={post.user.name}
+          subheader={formatDistance(new Date(), Date.parse(post.createdAt), {
+            locale: ja,
+          })}
+        />
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='span'>
             {post.content.split('\n').map((body: string, index: number) => {

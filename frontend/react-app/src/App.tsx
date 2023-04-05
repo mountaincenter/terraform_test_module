@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import CommonLayout from 'components/layouts/CommonLayout';
-import { User } from 'interfaces';
+import { type User } from 'interfaces';
 import Home from 'components/pages/Home';
 import SignIn from 'components/pages/SignIn';
 import SignUp from 'components/pages/SignUp';
@@ -66,9 +66,6 @@ const App: React.FC = () => {
       return <></>;
     }
   };
-  console.log(currentUser);
-  console.log(currentUser?.id);
-  console.log(currentUser?.name);
   return (
     <>
       <BrowserRouter>

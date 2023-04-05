@@ -1,16 +1,5 @@
 # frozen_string_literal: true
 
-# unless Post.exists?
-#   users = User.all
-#   users.each do |user|
-#     Random.rand(0..3).times do
-#       user.posts.create!(
-#         content: Faker::Lorem.paragraph
-#       )
-#     end
-#   end
-# end
-
 unless Post.exists?
   users = User.all
   users.each do |user|
