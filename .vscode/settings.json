@@ -6,4 +6,5 @@
   "ruby.lint": {
     "rubocop": true
   }
+
 }

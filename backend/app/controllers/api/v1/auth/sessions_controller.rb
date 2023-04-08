@@ -16,12 +16,10 @@ module Api
         end
 
         def guest_sign_in
-          @resource = User.guest
-          @token = @resource.create_token
-          @resource.save!
-          render_create_success
+          user = User.guest
+          headers = user.create_new_auth_token
+          render json: { status: 200, user:, message: "ゲストユーザーでログインしました" }, headers: headers
         end
-
       end
     end
   end

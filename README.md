@@ -299,4 +299,3 @@ react
 
 ```sh:terminal
 docker-compose run --rm web npx create-react-app . --template-typescript
-```
