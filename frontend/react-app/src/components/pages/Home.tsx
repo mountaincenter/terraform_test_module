@@ -8,9 +8,6 @@ const Home: React.FC = () => {
     <>
       {isSignedIn && currentUser != null ? (
         <>
-          <h1>Home</h1>
-          <h2>メールアドレス: {currentUser?.email}</h2>
-          <h2>名前: {currentUser?.name}</h2>
           <PostList />
         </>
       ) : (

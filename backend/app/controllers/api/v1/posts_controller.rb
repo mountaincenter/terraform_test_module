@@ -9,11 +9,12 @@ module Api
     # Post Controller
     #
     class PostsController < ApplicationController
+      before_action :authenticate_api_v1_user!
       before_action :set_post, only: %i[show destroy]
 
       def index
         posts = Post.includes(:user).order(created_at: :desc).limit(20)
-        render json: posts
+        render json: posts, each_serializer: PostSerializer, scope: current_api_v1_user
       end
 
       def show

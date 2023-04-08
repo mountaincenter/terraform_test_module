@@ -24,7 +24,7 @@ export interface User {
 }
 
 export interface Post {
-  id: string;
+  id: number;
   content: string;
   images: Image[];
   user: {
@@ -33,6 +33,8 @@ export interface Post {
     email: string;
   };
   createdAt?: any;
+  likes: number;
+  isLiked: boolean;
 }
 
 export interface Image {

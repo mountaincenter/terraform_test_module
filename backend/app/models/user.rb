@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   validates :email, presence: true, length: { maximum: 100 }
 
   has_many :posts, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   def self.guest
     find_or_create_by!(

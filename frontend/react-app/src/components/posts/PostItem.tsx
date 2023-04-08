@@ -11,13 +11,15 @@ import {
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { type Post } from 'interfaces';
 
 import { formatDistance } from 'date-fns';
 import { ja } from 'date-fns/locale';
 
-import { deletePost } from 'lib/api/posts';
+import { deletePost, addPostLike, removePostLike } from 'lib/api/posts';
 
 import CarouselImage from './CarouselImage';
 
@@ -38,8 +40,26 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
-  const handleDeletePost = (id: string): void => {
+  const handleDeletePost = (id: number): void => {
     deletePost(id)
+      .then(() => {
+        handleGetPosts();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const handleAddLike = (id: number): void => {
+    addPostLike(id)
+      .then(() => {
+        handleGetPosts();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const handleRemoveLike = (id: number): void => {
+    removePostLike(id)
       .then(() => {
         handleGetPosts();
       })
@@ -72,6 +92,13 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
           <CarouselImage post={post} />
         </CardContent>
         <CardActions disableSpacing>
+          <IconButton
+            onClick={() =>
+              post.isLiked ? handleRemoveLike(post.id) : handleAddLike(post.id)
+            }
+          >
+            {post.isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
           <IconButton
             sx={{ marginLeft: 'auto' }}
             onClick={() => {
