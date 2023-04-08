@@ -13,7 +13,7 @@ import Cookies from 'js-cookie';
 import { AuthContext } from 'App';
 import AlertMessage from 'components/utils/AlertMessage';
 import { type SignInData } from 'interfaces';
-import { signIn } from 'lib/api/auth';
+import { signIn, guestSignIn } from 'lib/api/auth';
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
@@ -34,7 +34,8 @@ const SignIn: React.FC = () => {
 
     try {
       const res = await signIn(params);
-
+      console.log(res);
+      console.log(res.headers['access-token']);
       if (res.status === 200) {
         Cookies.set('_access_token', res.headers['access-token'] ?? '');
         Cookies.set('_client', res.headers.client ?? '');
@@ -44,7 +45,30 @@ const SignIn: React.FC = () => {
         setCurrentUser(res.data.data);
 
         navigate('/');
-
+        console.log('Signed in successfully!');
+      } else {
+        setAlertMessageOpen(true);
+      }
+    } catch (err) {
+      console.log(err);
+      setAlertMessageOpen(true);
+    }
+  };
+  const handleEasySubmit = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    e.preventDefault();
+    try {
+      const res = await guestSignIn();
+      console.log(res.data);
+      // console.log(res.data.headers['access-token']);
+      if (res.status === 200) {
+        Cookies.set('_access_token', res.headers['access-token'] ?? '');
+        Cookies.set('_client', res.headers.client ?? '');
+        Cookies.set('_uid', res.headers.uid ?? '');
+        setIsSignedIn(true);
+        setCurrentUser(res.data.user);
+        navigate('/');
         console.log('Signed in successfully!');
       } else {
         setAlertMessageOpen(true);
@@ -99,6 +123,19 @@ const SignIn: React.FC = () => {
               }}
             >
               ログイン
+            </Button>
+            <Button
+              type='submit'
+              variant='contained'
+              size='large'
+              fullWidth
+              color='inherit'
+              sx={{ marginTop: 2, flexGrow: 1, textTransform: 'none' }}
+              onClick={(e) => {
+                void handleEasySubmit(e);
+              }}
+            >
+              簡単ログイン
             </Button>
             <Box textAlign='center' sx={{ marginTop: '2rem' }}>
               <Typography variant='body2'>

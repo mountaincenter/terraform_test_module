@@ -53,7 +53,6 @@ const App: React.FC = () => {
       console.log(err);
     });
   }, []);
-
   const Private: React.FC<{ children: React.ReactElement }> = ({
     children,
   }) => {
@@ -67,7 +66,6 @@ const App: React.FC = () => {
       return <></>;
     }
   };
-
   return (
     <>
       <BrowserRouter>
@@ -84,6 +82,7 @@ const App: React.FC = () => {
           <CommonLayout>
             <Routes>
               <Route path='/' element={<Private>{<Home />}</Private>} />
+              {/* <Route path='/' element={<Home />} /> */}
               <Route path='/signin' element={<SignIn />} />
               <Route path='/signup' element={<SignUp />} />
             </Routes>

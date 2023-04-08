@@ -19,6 +19,8 @@ services:
       - public-data:/sample/public
       - tmp-data:/sample/tmp
       - log-data:/sample/log
+    environment:
+      RAILS_ENV: development
     depends_on:
       - db
   nginx:
