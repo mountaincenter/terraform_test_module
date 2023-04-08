@@ -1,4 +1,10 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "solargraph.useBundler": true,
+  "ruby.useBundler": true,
+  "ruby.lint": {
+    "rubocop": true
+  }
+
 }
