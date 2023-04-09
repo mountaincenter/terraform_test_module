@@ -1,8 +1,18 @@
-### 4/6
+### 4/9
 
+- Like:react
+  - create できない問題
+  - 件数表示：useState で状態管理
+- User
+  - react
+    - ユーザー詳細画面作成
+    - ユーザー変更画面作成
+  - rails
+    - Follow model controller serializer 作成
+  - react
+    - Follow 画面作成
 - 簡単ログイン
   - model → controller → console → react → rspec,rubocop
-- qiita 記事準備 - vscode で qiita 拡張機能をインストール
 - 職務経歴書準備
 - rails fog bugfix
 
@@ -33,7 +43,8 @@
 - [x] AWS - 本番環境での SignUp,SignIn,Post(画像以外)
 - [ ] AWS - 本番環境での 簡単ログイン
 - [ ] AWS - 本番環境での carrierwave(fog の設定)
-- [ ] rails - Like Model(いいね)の実装
+- [x] rails - Like Model(いいね)の実装
+- [ ] react - Like（いいね）の実装
 - [ ] rails - Follow Modle(フォロー)の実装
 - [ ] rails - Comment の実装
 - [ ] rails - Message の実装
@@ -299,3 +310,4 @@ react
 
 ```sh:terminal
 docker-compose run --rm web npx create-react-app . --template-typescript
+```

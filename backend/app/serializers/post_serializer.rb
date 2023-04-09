@@ -16,4 +16,8 @@ class PostSerializer < ActiveModel::Serializer
     end
   end
 
+  def likes
+    object.likes.count
+  end
+
 end

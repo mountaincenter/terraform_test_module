@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Avatar from 'boring-avatars';
 import {
   Card,
@@ -40,6 +41,7 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
+  const [isLiked, setIsLiked] = useState<boolean>(post.isLiked);
   const handleDeletePost = (id: number): void => {
     deletePost(id)
       .then(() => {
@@ -52,6 +54,7 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
   const handleAddLike = (id: number): void => {
     addPostLike(id)
       .then(() => {
+        setIsLiked(true);
         handleGetPosts();
       })
       .catch((error) => {
@@ -61,13 +64,13 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
   const handleRemoveLike = (id: number): void => {
     removePostLike(id)
       .then(() => {
+        setIsLiked(false);
         handleGetPosts();
       })
       .catch((error) => {
         console.error(error);
       });
   };
-
   return (
     <>
       <Card sx={{ ...CardStyles }}>
@@ -94,10 +97,10 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
         <CardActions disableSpacing>
           <IconButton
             onClick={() =>
-              post.isLiked ? handleRemoveLike(post.id) : handleAddLike(post.id)
+              { isLiked ? handleRemoveLike(post.id) : handleAddLike(post.id); }
             }
           >
-            {post.isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
           <IconButton
             sx={{ marginLeft: 'auto' }}

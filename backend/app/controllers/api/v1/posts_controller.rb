@@ -18,7 +18,7 @@ module Api
       end
 
       def show
-        render json: @post
+        render json: @post, each_serializer: PostSerializer, scope: current_api_v1_user
       end
 
       def create
