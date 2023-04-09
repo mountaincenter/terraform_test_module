@@ -10,12 +10,15 @@ export interface SignInData {
   password: string;
 }
 
-export interface User {
+export interface UserProps {
   id: number;
+  name: string;
+  email: string;
+}
+
+export interface User extends UserProps {
   uid: string;
   provider: string;
-  email: string;
-  name: string;
   nickname?: string;
   image?: string;
   allowPasswordChange: boolean;
@@ -23,15 +26,19 @@ export interface User {
   updateAt?: Date;
 }
 
+export interface Follow {
+  id: number;
+  followerId: number;
+  followedId: number;
+  follower: UserProps;
+  followed: UserProps;
+}
+
 export interface Post {
   id: number;
   content: string;
   images: Image[];
-  user: {
-    id: number | string;
-    name: string;
-    email: string;
-  };
+  user: UserProps;
   createdAt?: any;
   likesCount: number;
   liked: boolean;

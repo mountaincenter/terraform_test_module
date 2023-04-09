@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
@@ -23,6 +23,7 @@ import { ja } from 'date-fns/locale';
 import { deletePost, addPostLike, removePostLike } from 'lib/api/posts';
 
 import CarouselImage from './CarouselImage';
+import FollowComponent from 'components/users/Follow';
 
 const CardStyles = {
   width: 400,
@@ -76,14 +77,11 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
   };
   return (
     <>
+      {/* <FollowComponent user={post.user} /> */}
       <Card sx={{ ...CardStyles }}>
         <CardHeader
           avatar={<Avatar name={post.user.name} variant='beam' />}
-          actions={
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-          }
+          action={<FollowComponent user={post.user} />}
           title={post.user.name}
           subheader={formatDistance(new Date(), Date.parse(post.createdAt), {
             locale: ja,
