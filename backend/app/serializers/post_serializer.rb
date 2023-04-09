@@ -4,7 +4,7 @@
 # Post Serializer
 #
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :content, :images, :is_liked, :created_at
+  attributes :id, :content, :images, :is_liked, :likes_count, :created_at
   belongs_to :user
   has_many :likes
 
@@ -16,7 +16,7 @@ class PostSerializer < ActiveModel::Serializer
     end
   end
 
-  def likes
+  def likes_count
     object.likes.count
   end
 
