@@ -16,22 +16,24 @@ const PostList: React.FC = (): JSX.Element => {
   useEffect(() => {
     void handleGetPosts();
   }, []);
-
+  console.log(posts);
   return (
     <>
       <Container maxWidth='xl' sx={{ marginTop: '3rem' }}>
         <Grid container direction='row' justifyContent='center' spacing={0.5}>
           <Grid item>
             <PostForm handleGetPosts={() => handleGetPosts} />
-            {posts?.map((post: Post) => {
-              return (
+            {posts.length > 0 ? (
+              posts.map((post) => (
                 <PostItem
                   key={post.id}
                   post={post}
                   handleGetPosts={() => handleGetPosts}
                 />
-              );
-            })}
+              ))
+            ) : (
+              <h4>No posts found...</h4>
+            )}
           </Grid>
         </Grid>
       </Container>

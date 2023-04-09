@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Avatar from 'boring-avatars';
 import {
   Card,
@@ -11,13 +12,15 @@ import {
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { type Post } from 'interfaces';
 
 import { formatDistance } from 'date-fns';
 import { ja } from 'date-fns/locale';
 
-import { deletePost } from 'lib/api/posts';
+import { deletePost, addPostLike, removePostLike } from 'lib/api/posts';
 
 import CarouselImage from './CarouselImage';
 
@@ -38,7 +41,8 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
-  const handleDeletePost = (id: string): void => {
+  const [isLiked, setIsLiked] = useState<boolean>(post.isLiked);
+  const handleDeletePost = (id: number): void => {
     deletePost(id)
       .then(() => {
         handleGetPosts();
@@ -47,7 +51,26 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
         console.error(error);
       });
   };
-
+  const handleAddLike = (id: number): void => {
+    addPostLike(id)
+      .then(() => {
+        setIsLiked(true);
+        handleGetPosts();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const handleRemoveLike = (id: number): void => {
+    removePostLike(id)
+      .then(() => {
+        setIsLiked(false);
+        handleGetPosts();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <>
       <Card sx={{ ...CardStyles }}>
@@ -72,6 +95,13 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
           <CarouselImage post={post} />
         </CardContent>
         <CardActions disableSpacing>
+          <IconButton
+            onClick={() =>
+              { isLiked ? handleRemoveLike(post.id) : handleAddLike(post.id); }
+            }
+          >
+            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </IconButton>
           <IconButton
             sx={{ marginLeft: 'auto' }}
             onClick={() => {
