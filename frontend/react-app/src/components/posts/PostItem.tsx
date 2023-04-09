@@ -42,6 +42,7 @@ interface PostItemProps {
 
 const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
   const [isLiked, setIsLiked] = useState<boolean>(post.isLiked);
+  const [likesCount, setLikesCount] = useState<number>(post.likesCount);
   const handleDeletePost = (id: number): void => {
     deletePost(id)
       .then(() => {
@@ -55,6 +56,7 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
     addPostLike(id)
       .then(() => {
         setIsLiked(true);
+        setLikesCount((prev) => prev + 1);
         handleGetPosts();
       })
       .catch((error) => {
@@ -65,6 +67,7 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
     removePostLike(id)
       .then(() => {
         setIsLiked(false);
+        setLikesCount((prev) => prev - 1);
         handleGetPosts();
       })
       .catch((error) => {
@@ -96,12 +99,13 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
         </CardContent>
         <CardActions disableSpacing>
           <IconButton
-            onClick={() =>
-              { isLiked ? handleRemoveLike(post.id) : handleAddLike(post.id); }
-            }
+            onClick={() => {
+              isLiked ? handleRemoveLike(post.id) : handleAddLike(post.id);
+            }}
           >
             {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
+          {likesCount}
           <IconButton
             sx={{ marginLeft: 'auto' }}
             onClick={() => {

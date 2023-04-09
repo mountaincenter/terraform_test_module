@@ -33,7 +33,7 @@ export interface Post {
     email: string;
   };
   createdAt?: any;
-  likes: number;
+  likesCount: number;
   isLiked: boolean;
 }
 
