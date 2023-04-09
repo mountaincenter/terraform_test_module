@@ -16,6 +16,12 @@ class User < ActiveRecord::Base
   has_many :posts, dependent: :destroy
   has_many :likes, dependent: :destroy
 
+  has_many :follower_relationships, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
+  has_many :followers, through: :follower_relationships, source: :follower
+
+  has_many :following_relationships, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
+  has_many :following, through: :following_relationships, source: :followed
+
   def self.guest
     find_or_create_by!(
       email: "guest@example.com",

@@ -34,7 +34,7 @@ export interface Post {
   };
   createdAt?: any;
   likesCount: number;
-  isLiked: boolean;
+  liked: boolean;
 }
 
 export interface Image {

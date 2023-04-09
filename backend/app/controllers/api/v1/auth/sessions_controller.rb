@@ -18,9 +18,8 @@ module Api
         def guest_sign_in
           user = User.guest
           headers = user.create_new_auth_token
-          render json: { status: 200, user:, message: "ゲストユーザーでログインしました" }, headers: headers
+          render json: { status: 200, user:, message: "ゲストユーザーでログインしました" }, headers:
         end
-
       end
     end
   end

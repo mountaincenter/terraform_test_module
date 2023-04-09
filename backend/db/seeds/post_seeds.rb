@@ -7,7 +7,7 @@ unless Post.exists?
       user.posts.create!(
         content: Faker::Lorem.paragraph,
         images: [
-          File.open("app/assets/images/cat01.png"),
+          File.open("app/assets/images/cat01.png")
         ]
       )
     elsif user.id % 3 == 2
@@ -25,7 +25,7 @@ unless Post.exists?
     end
     Random.rand(0..3).times do
       user.posts.create!(
-        content: Faker::Lorem::paragraph
+        content: Faker::Lorem.paragraph
       )
     end
   end

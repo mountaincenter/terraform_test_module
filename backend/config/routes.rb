@@ -18,6 +18,9 @@ Rails.application.routes.draw do
       devise_scope :api_v1_user do
         post "auth/sessions/guest_sign_in", to: "auth/sessions#guest_sign_in"
       end
+      resources :users, only: %i[] do
+        resource :follows, only: %i[create destroy]
+      end
     end
   end
 end

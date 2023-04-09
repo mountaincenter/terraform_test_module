@@ -41,7 +41,7 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
-  const [isLiked, setIsLiked] = useState<boolean>(post.isLiked);
+  const [isLiked, setIsLiked] = useState<boolean>(post.liked);
   const [likesCount, setLikesCount] = useState<number>(post.likesCount);
   const handleDeletePost = (id: number): void => {
     deletePost(id)
