@@ -1,12 +1,10 @@
 terraform {
-  backend "s3" {
-    bucket         = "terraform-tfstate-yam"
-    key            = "terraform.tfstate"
-    region         = "ap-northeast-1"
-    dynamodb_table = "terraform-tfstate-locking"
-    encrypt        = true
+  cloud{
+    organization = "yhiroyuki560730"
+    workspaces {
+      name = "sample"
+    }
   }
-
   required_providers {
     aws = {
       source  = "hashicorp/aws"

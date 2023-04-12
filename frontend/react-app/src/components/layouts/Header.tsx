@@ -36,6 +36,8 @@ const Header: React.FC = () => {
         return (
           <>
             <Typography
+              component={Link}
+              to='/'
               variant='h6'
               sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}
             >

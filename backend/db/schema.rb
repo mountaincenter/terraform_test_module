@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_09_025432) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_11_115841) do
   create_table "follows", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "follower_id", null: false
     t.bigint "followed_id", null: false
@@ -56,6 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_09_025432) do
     t.string "nickname"
     t.string "image"
     t.string "email"
+    t.string "profile", limit: 160
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

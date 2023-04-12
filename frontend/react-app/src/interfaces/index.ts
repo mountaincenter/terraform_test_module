@@ -14,6 +14,10 @@ export interface UserProps {
   id: number;
   name: string;
   email: string;
+  profile: string;
+  followingsCount: number;
+  followersCount: number;
+  followed: boolean;
 }
 
 export interface User extends UserProps {
@@ -24,6 +28,20 @@ export interface User extends UserProps {
   allowPasswordChange: boolean;
   createdAt?: Date;
   updateAt?: Date;
+}
+
+export interface UpdateUserData {
+  id: number;
+  name?: string;
+  image?: string;
+}
+
+export interface UpdateUserFormData extends FormData {
+  append: (
+    name: keyof UpdateUserData,
+    value: string | Blob,
+    fileName?: string
+  ) => void;
 }
 
 export interface Follow {

@@ -40,9 +40,11 @@ const SignIn: React.FC = () => {
         Cookies.set('_uid', res.headers.uid ?? '');
 
         setIsSignedIn(true);
+
+        console.log(res);
         setCurrentUser(res.data.data);
 
-        navigate('/');
+        navigate('/users');
         console.log('Signed in successfully!');
       } else {
         setAlertMessageOpen(true);

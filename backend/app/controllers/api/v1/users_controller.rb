@@ -9,18 +9,19 @@ module Api
 
       def index
         users = User.where.not(id: current_api_v1_user.id)
-        render json: { status: 200, users: users }
+        render json: users, each_serializer: UserSerializer, scope: current_api_v1_user, status:200
       end
 
       def show
         @user = User.find(params[:id])
-        render json: { status: 200, user: @user }
+        render json: @user, each_serializer: UserSerializer, scope: current_api_v1_user, status: 200
       end
 
       def update
-        @uesr.name = user_params[:name]
+        @user.name = user_params[:name]
+        @user.profile = user_params[:profile]
         if @user.save
-          render json: { status: 200, user: @user }
+          render json: @user, each_serializer: UserSerializer, scope: current_api_v1_user, status: 200
         else
           render json: { status: 500, message: '更新に失敗しました' }
         end
@@ -33,11 +34,8 @@ module Api
       end
 
       def user_params
-        params.permit(:name)
+        params.permit(:name, :profile)
       end
     end
   end
-end
-
-class Api::V1::UsersController < ApplicationController
 end

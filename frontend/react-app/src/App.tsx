@@ -5,6 +5,9 @@ import { type User } from 'interfaces';
 import Home from 'components/pages/Home';
 import SignIn from 'components/pages/SignIn';
 import SignUp from 'components/pages/SignUp';
+import UserHome from 'components/users/Home';
+import UserShow from 'components/users/UserItem';
+import NotFound from 'components/pages/NotFound';
 
 import { getCurrentUser } from 'lib/api/auth';
 
@@ -66,6 +69,8 @@ const App: React.FC = () => {
       return <></>;
     }
   };
+
+  // console.log(currentUser);
   return (
     <>
       <BrowserRouter>
@@ -82,9 +87,17 @@ const App: React.FC = () => {
           <CommonLayout>
             <Routes>
               <Route path='/' element={<Private>{<Home />}</Private>} />
-              {/* <Route path='/' element={<Home />} /> */}
+              <Route
+                path='/users'
+                element={<Private>{<UserHome />}</Private>}
+              />
+              <Route
+                path='/users/:id'
+                element={<Private>{<UserShow />}</Private>}
+              />
               <Route path='/signin' element={<SignIn />} />
               <Route path='/signup' element={<SignUp />} />
+              <Route path='/*' element={<NotFound />} />
             </Routes>
           </CommonLayout>
         </AuthContext.Provider>
