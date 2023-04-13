@@ -6,7 +6,7 @@
   - rails react
     - sign_in 時に serializer の情報を取得
   - react rails
-    - user 間　 chat(message)の作成
+    - user_id → recipient_id に変更して controller のエラーを解消
   - react rails
     - post に対して　 comment の作成
   - post をリッチテキスト化して hash タグを抽出,mention を抽出,リンクを抽出

@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       end
       resources :users, only: %i[index show update] do
         resource :follows, only: %i[create destroy]
+        resources :messages, only: %i[index create]
+        # resources :messages, only: %i[index create], params: :recipient_id, constraints: { recipient_id: /\d+/ }
       end
     end
   end
