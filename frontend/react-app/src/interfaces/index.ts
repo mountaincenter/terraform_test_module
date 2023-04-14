@@ -69,3 +69,19 @@ export interface Image {
 export interface PostApiJson {
   posts: Post[];
 }
+
+export interface Messages {
+  id: number;
+  body: string;
+  senderId: number;
+  recipientId: number;
+  sender: {
+    id: number;
+    name: string;
+  };
+  recipient: {
+    id: number;
+    name: string;
+  };
+  createdAt?: Date;
+}

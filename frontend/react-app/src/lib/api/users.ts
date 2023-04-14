@@ -28,3 +28,16 @@ export const removeFollowUser = async (
 ): Promise<AxiosResponse<void>> => {
   return await client.delete(`/users/${userId}/follows`, auth);
 };
+
+export const getMessages = async (
+  userId: number
+): Promise<AxiosResponse<any>> => {
+  return await client.get(`/users/${userId}/messages`, auth);
+};
+
+export const createMessage = async (
+  userId: number,
+  data: FormData
+): Promise<AxiosResponse<any>> => {
+  return await client.post(`/users/${userId}/messages`, data, auth);
+};

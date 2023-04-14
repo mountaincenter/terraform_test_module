@@ -23,7 +23,7 @@ module Api
       private
 
       def message_params
-        params.require(:message).permit(:body)
+        params.permit(:body)
       end
 
       def set_recipient

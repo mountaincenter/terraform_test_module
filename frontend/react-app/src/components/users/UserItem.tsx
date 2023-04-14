@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getUser, addFollowUser, removeFollowUser } from 'lib/api/users';
 import { type User } from 'interfaces';
 
+import Message from './Message';
 import {
   Button,
   Card,
@@ -89,6 +90,7 @@ const UserShow: React.FC = (): JSX.Element => {
           </Typography>
         </CardContent>
       </Card>
+      <Message userId={userId} />
     </>
   );
 };
