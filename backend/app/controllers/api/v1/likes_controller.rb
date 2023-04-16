@@ -1,6 +1,10 @@
+# frozen_string_literal: true
 
 module Api
   module V1
+    #
+    # LikesController
+    #
     class LikesController < ApplicationController
       before_action :authenticate_user!
       before_action :set_post, only: %i[create destroy]
@@ -30,7 +34,7 @@ module Api
       end
 
       def authenticate_user!
-        render json: { status: 401, errors: ['Unauthorized'] } unless current_api_v1_user
+        render json: { status: 401, errors: ["Unauthorized"] } unless current_api_v1_user
       end
     end
   end

@@ -37,13 +37,13 @@ module Api
 
       private
 
-        def set_post
-          @post = Post.find(params[:id])
-        end
+      def set_post
+        @post = Post.find(params[:id])
+      end
 
-        def post_params
-          params.permit(:content, { images: [] }, :user_id)
-        end
+      def post_params
+        params.permit(:content, { images: [] }, :user_id)
+      end
     end
   end
 end

@@ -1,20 +1,21 @@
-### 4/9
+### 4/14
 
-- Like:react
-  - create できない問題
-  - 件数表示：useState で状態管理
 - User
   - react
-    - ユーザー詳細画面作成
-    - ユーザー変更画面作成
-  - rails
-    - Follow model controller serializer 作成
-  - react
-    - Follow 画面作成
+    - それぞれの Id に即した post 表示
+  - rails react
+    - sign_in 時に serializer の情報を取得
+  - react rails
+    - post に対して　 comment の作成
+  - post をリッチテキスト化して hash タグを抽出,mention を抽出,リンクを抽出
+    - react draftjs
 - 簡単ログイン
   - model → controller → console → react → rspec,rubocop
 - 職務経歴書準備
 - rails fog bugfix
+- rails rspec bugfix
+
+- rails seraializer で follow,follower の情報を取得 → react console.log で確認
 
 #### 課題
 
@@ -44,11 +45,13 @@
 - [ ] AWS - 本番環境での 簡単ログイン
 - [ ] AWS - 本番環境での carrierwave(fog の設定)
 - [x] rails - Like Model(いいね)の実装
-- [ ] react - Like（いいね）の実装
-- [ ] rails - Follow Modle(フォロー)の実装
+- [x] react - Like（いいね）の実装
+- [x] rails - Follow Modle(フォロー)の実装
 - [ ] rails - Comment の実装
 - [ ] rails - Message の実装
 - [ ] githubactions - CI/CD
+- [x] AWS - tfstate を S3 から TerraformCloud に移行
+- [x] rails - ER 図の作成(gem)
 
 ## React, Ruby on Rails で terraform を用い GitHubaction 経由で Deploy する話
 

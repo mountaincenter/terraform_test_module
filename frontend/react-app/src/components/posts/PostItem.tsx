@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
@@ -21,6 +21,8 @@ import { formatDistance } from 'date-fns';
 import { ja } from 'date-fns/locale';
 
 import { deletePost, addPostLike, removePostLike } from 'lib/api/posts';
+
+import Comments from './Comments';
 
 import CarouselImage from './CarouselImage';
 
@@ -41,7 +43,7 @@ interface PostItemProps {
 }
 
 const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
-  const [isLiked, setIsLiked] = useState<boolean>(post.isLiked);
+  const [isLiked, setIsLiked] = useState<boolean>(post.liked);
   const [likesCount, setLikesCount] = useState<number>(post.likesCount);
   const handleDeletePost = (id: number): void => {
     deletePost(id)
@@ -79,11 +81,6 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
       <Card sx={{ ...CardStyles }}>
         <CardHeader
           avatar={<Avatar name={post.user.name} variant='beam' />}
-          actions={
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-          }
           title={post.user.name}
           subheader={formatDistance(new Date(), Date.parse(post.createdAt), {
             locale: ja,
@@ -98,14 +95,23 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
           <CarouselImage post={post} />
         </CardContent>
         <CardActions disableSpacing>
+          <Comments post={post} />
           <IconButton
+            sx={{ '&:hover': { color: 'pink' } }}
             onClick={() => {
               isLiked ? handleRemoveLike(post.id) : handleAddLike(post.id);
             }}
           >
             {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            <Typography
+              variant='body2'
+              color='textSecondary'
+              component='span'
+              sx={{ '&:hover': { color: 'pink' } }}
+            >
+              {likesCount}
+            </Typography>
           </IconButton>
-          {likesCount}
           <IconButton
             sx={{ marginLeft: 'auto' }}
             onClick={() => {
