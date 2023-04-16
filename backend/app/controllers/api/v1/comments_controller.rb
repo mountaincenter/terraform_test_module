@@ -4,24 +4,28 @@ module Api
     # comments controller
     #
     class CommentsController < ApplicationController
-      before_actions :authenticate_api_v1_user!
+      before_action :authenticate_api_v1_user!
+
+      def index
+        @comments = Comment.where(post_id: params[:post_id])
+        render json: @comments, status: :ok
+      end
 
       def create
         @post = Post.find(params[:post_id])
-        @comment = @post.comments.new(comment_params)
-        @comment.user = current_api_v1_user
+        @comment = Comment.new(comment_params.merge(post: @post, user: current_api_v1_user))
 
         if @comment.save
           render json: @comment, status: :created
         else
-          render josn: @comment.errors, status: :unprocessable_entity
+          render json: { errors: @comment.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
       private
 
       def comment_params
-        params.premit(:body)
+        params.permit(:body)
       end
 
     end

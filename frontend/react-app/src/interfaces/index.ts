@@ -85,3 +85,15 @@ export interface Messages {
   };
   createdAt?: Date;
 }
+
+export interface Comment {
+  id: number;
+  body: string;
+  userId: number | undefined;
+  postId: number;
+  user: {
+    id: number;
+    name: string;
+  };
+  createdAt?: Date;
+}

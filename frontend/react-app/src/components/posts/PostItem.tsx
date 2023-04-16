@@ -22,6 +22,8 @@ import { ja } from 'date-fns/locale';
 
 import { deletePost, addPostLike, removePostLike } from 'lib/api/posts';
 
+import Comments from './Comments';
+
 import CarouselImage from './CarouselImage';
 
 const CardStyles = {
@@ -93,14 +95,23 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
           <CarouselImage post={post} />
         </CardContent>
         <CardActions disableSpacing>
+          <Comments post={post} />
           <IconButton
+            sx={{ '&:hover': { color: 'pink' } }}
             onClick={() => {
               isLiked ? handleRemoveLike(post.id) : handleAddLike(post.id);
             }}
           >
             {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            <Typography
+              variant='body2'
+              color='textSecondary'
+              component='span'
+              sx={{ '&:hover': { color: 'pink' } }}
+            >
+              {likesCount}
+            </Typography>
           </IconButton>
-          {likesCount}
           <IconButton
             sx={{ marginLeft: 'auto' }}
             onClick={() => {

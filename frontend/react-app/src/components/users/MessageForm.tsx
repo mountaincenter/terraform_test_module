@@ -26,14 +26,20 @@ const MessageForm: React.FC<MessageFormProps> = ({
     return formData;
   };
 
-  const handleSubmit = async (): Promise<void> => {
+  const handleSubmit: () => void | Promise<void> = async () => {
     setIsBodySending(true);
     const data = createFormData();
-    await createMessage(userId, data).then(() => {
-      setBody('');
-      handleGetMessages();
-    });
-    setIsBodySending(false);
+    try {
+      await createMessage(userId, data).then(() => {
+        setBody('');
+        handleGetMessages();
+      });
+      setIsBodySending(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsBodySending(false);
+    }
   };
 
   const formWrapper = {
@@ -60,7 +66,7 @@ const MessageForm: React.FC<MessageFormProps> = ({
             variant='contained'
             color='primary'
             sx={{ marginLeft: '0.5rem' }}
-            disabled={body === ''}
+            disabled={body === '' || isBodySending}
             onClick={handleSubmit}
           >
             <SendIcon />

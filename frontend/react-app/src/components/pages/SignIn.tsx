@@ -44,7 +44,7 @@ const SignIn: React.FC = () => {
         console.log(res);
         setCurrentUser(res.data.data);
 
-        navigate('/users');
+        navigate('/');
         console.log('Signed in successfully!');
       } else {
         setAlertMessageOpen(true);
