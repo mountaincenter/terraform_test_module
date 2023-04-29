@@ -11,9 +11,6 @@ module Api
           end
         end
 
-        def render_create_success
-          render json: @resource, serializer: UserSerializer, status: 200
-        end
 
         def guest_sign_in
           @resource = User.guest

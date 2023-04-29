@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Avatar from 'boring-avatars';
 import {
   Card,
@@ -11,18 +12,17 @@ import {
 } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { type Post } from 'interfaces';
 
 import { formatDistance } from 'date-fns';
 import { ja } from 'date-fns/locale';
 
-import { deletePost, addPostLike, removePostLike } from 'lib/api/posts';
+import { deletePost } from 'lib/api/posts';
 
 import Comments from './Comments';
+import Like from 'components/likes/Like';
+import { AuthContext } from 'App';
 
 import CarouselImage from './CarouselImage';
 
@@ -40,11 +40,20 @@ const CardStyles = {
 interface PostItemProps {
   post: Post;
   handleGetPosts: () => void;
+  userId: number | null;
 }
 
-const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
-  const [isLiked, setIsLiked] = useState<boolean>(post.liked);
-  const [likesCount, setLikesCount] = useState<number>(post.likesCount);
+const customStyle = {
+  textDecoration: 'none',
+  color: 'inherit',
+};
+
+const PostItem = ({
+  post,
+  handleGetPosts,
+  userId,
+}: PostItemProps): JSX.Element => {
+  const { currentUser } = useContext(AuthContext);
   const handleDeletePost = (id: number): void => {
     deletePost(id)
       .then(() => {
@@ -54,75 +63,58 @@ const PostItem = ({ post, handleGetPosts }: PostItemProps): JSX.Element => {
         console.error(error);
       });
   };
-  const handleAddLike = (id: number): void => {
-    addPostLike(id)
-      .then(() => {
-        setIsLiked(true);
-        setLikesCount((prev) => prev + 1);
-        handleGetPosts();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  const handleRemoveLike = (id: number): void => {
-    removePostLike(id)
-      .then(() => {
-        setIsLiked(false);
-        setLikesCount((prev) => prev - 1);
-        handleGetPosts();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
   return (
     <>
-      <Card sx={{ ...CardStyles }}>
-        <CardHeader
-          avatar={<Avatar name={post.user.name} variant='beam' />}
-          title={post.user.name}
-          subheader={formatDistance(new Date(), Date.parse(post.createdAt), {
-            locale: ja,
-          })}
-        />
-        <CardContent>
-          <Typography variant='body2' color='textSecondary' component='span'>
-            {post.content.split('\n').map((body: string, index: number) => {
-              return <p key={index}>{body}</p>;
-            })}
-          </Typography>
-          <CarouselImage post={post} />
-        </CardContent>
-        <CardActions disableSpacing>
-          <Comments post={post} />
-          <IconButton
-            sx={{ '&:hover': { color: 'pink' } }}
-            onClick={() => {
-              isLiked ? handleRemoveLike(post.id) : handleAddLike(post.id);
-            }}
-          >
-            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-            <Typography
-              variant='body2'
-              color='textSecondary'
-              component='span'
-              sx={{ '&:hover': { color: 'pink' } }}
-            >
-              {likesCount}
-            </Typography>
-          </IconButton>
-          <IconButton
-            sx={{ marginLeft: 'auto' }}
-            onClick={() => {
-              handleDeletePost(post.id);
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </CardActions>
-      </Card>
-      <Divider />
+      {userId === null || userId === post.user.id ? (
+        <>
+          <Card sx={{ ...CardStyles }}>
+            <Link to={`/users/${post.user.id}`} style={customStyle}>
+              <CardHeader
+                avatar={<Avatar name={post.user.name} variant='beam' />}
+                title={post.user.name}
+                subheader={formatDistance(
+                  new Date(),
+                  Date.parse(post.createdAt),
+                  {
+                    locale: ja,
+                  }
+                )}
+              />
+            </Link>
+            <CardContent>
+              <Typography
+                variant='body2'
+                color='textSecondary'
+                component='span'
+              >
+                {post.content.split('\n').map((body: string, index: number) => {
+                  return <p key={index}>{body}</p>;
+                })}
+              </Typography>
+              <CarouselImage post={post} />
+            </CardContent>
+            <CardActions disableSpacing>
+              <Comments post={post} />
+              <Like post={post} />
+              {currentUser?.id === post.user.id ? (
+                <IconButton
+                  sx={{ marginLeft: 'auto' }}
+                  onClick={() => {
+                    handleDeletePost(post.id);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              ) : (
+                <></>
+              )}
+            </CardActions>
+          </Card>
+          <Divider />
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

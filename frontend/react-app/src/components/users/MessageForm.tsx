@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 interface MessageFormProps {
   userId: number;
-  handleGetMessages: () => void;
+  handleGetMessages: (id: number) => void;
 }
 
 const MessageForm: React.FC<MessageFormProps> = ({
@@ -26,13 +26,16 @@ const MessageForm: React.FC<MessageFormProps> = ({
     return formData;
   };
 
-  const handleSubmit: () => void | Promise<void> = async () => {
+  const handleSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): Promise<void> => {
+    e.preventDefault();
     setIsBodySending(true);
     const data = createFormData();
     try {
       await createMessage(userId, data).then(() => {
         setBody('');
-        handleGetMessages();
+        handleGetMessages(userId);
       });
       setIsBodySending(false);
     } catch (error) {
@@ -67,7 +70,9 @@ const MessageForm: React.FC<MessageFormProps> = ({
             color='primary'
             sx={{ marginLeft: '0.5rem' }}
             disabled={body === '' || isBodySending}
-            onClick={handleSubmit}
+            onClick={(e) => {
+              void handleSubmit(e);
+            }}
           >
             <SendIcon />
           </Button>

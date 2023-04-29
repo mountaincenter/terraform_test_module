@@ -14,6 +14,8 @@ export interface UserProps {
   id: number;
   name: string;
   email: string;
+  height?: number;
+  target_weight?: number;
   profile: string;
   followingsCount: number;
   followersCount: number;
@@ -94,6 +96,21 @@ export interface Comment {
   user: {
     id: number;
     name: string;
+  };
+  createdAt?: Date;
+}
+
+export interface Health {
+  id: number;
+  weight: number;
+  bodyFatPercent?: number;
+  bmi?: number;
+  date: Date;
+  user: {
+    id: number;
+    name: string;
+    height: number;
+    targetWeight?: number;
   };
   createdAt?: Date;
 }

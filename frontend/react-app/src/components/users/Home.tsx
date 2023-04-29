@@ -140,7 +140,9 @@ const UserHome: React.FC = () => {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={handleSubmit}
+              onClick={(e) => {
+                void handleSubmit(e);
+              }}
               disabled={
                 name === '' ||
                 profile === undefined ||
