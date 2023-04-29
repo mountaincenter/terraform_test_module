@@ -2,11 +2,13 @@ import React, { useEffect, useState, createContext } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import CommonLayout from 'components/layouts/CommonLayout';
 import { type User } from 'interfaces';
+import HealthHome from 'components/healths/Home';
 import Home from 'components/pages/Home';
 import SignIn from 'components/pages/SignIn';
 import SignUp from 'components/pages/SignUp';
 import UserHome from 'components/users/Home';
 import UserShow from 'components/users/UserItem';
+import PostList from 'components/posts/PostList';
 import NotFound from 'components/pages/NotFound';
 
 import { getCurrentUser } from 'lib/api/auth';
@@ -70,7 +72,7 @@ const App: React.FC = () => {
     }
   };
 
-  // console.log(currentUser);
+  console.log(currentUser);
   return (
     <>
       <BrowserRouter>
@@ -88,12 +90,24 @@ const App: React.FC = () => {
             <Routes>
               <Route path='/' element={<Private>{<Home />}</Private>} />
               <Route
+                path='/posts'
+                element={<Private>{<PostList />}</Private>}
+              />
+              <Route
                 path='/users'
                 element={<Private>{<UserHome />}</Private>}
               />
               <Route
                 path='/users/:id'
                 element={<Private>{<UserShow />}</Private>}
+              />
+              <Route
+                path='/bodies'
+                element={
+                  <Private>
+                    <HealthHome />
+                  </Private>
+                }
               />
               <Route path='/signin' element={<SignIn />} />
               <Route path='/signup' element={<SignUp />} />

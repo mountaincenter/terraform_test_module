@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_14_011212) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_23_071129) do
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body"
     t.bigint "user_id", null: false
@@ -29,6 +29,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_14_011212) do
     t.index ["followed_id"], name: "index_follows_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_follows_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_follows_on_follower_id"
+  end
+
+  create_table "healths", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.float "weight", null: false
+    t.float "body_fat_percent"
+    t.date "date", null: false
+    t.string "memo"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_healths_on_user_id"
   end
 
   create_table "likes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -77,6 +88,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_14_011212) do
     t.string "nickname"
     t.string "image"
     t.string "email"
+    t.float "height"
+    t.float "target_weight"
     t.string "profile", limit: 160
     t.text "tokens"
     t.datetime "created_at", null: false
@@ -91,6 +104,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_14_011212) do
   add_foreign_key "comments", "users"
   add_foreign_key "follows", "users", column: "followed_id"
   add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "healths", "users"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
   add_foreign_key "messages", "users", column: "recipient_id"

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-seed_models = %i[user post]
+seed_models = %i[user post health]
 
 all_process_time = Benchmark.realtime do
   seed_models.each do |model|

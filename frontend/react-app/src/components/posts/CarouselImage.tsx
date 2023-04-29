@@ -2,7 +2,6 @@ import React from 'react';
 import Carousel from 'react-material-ui-carousel';
 import { CardMedia } from '@mui/material';
 import { type Post } from 'interfaces';
-import Default from 'public/images/empty.jpeg';
 
 interface PostItemProps {
   post: Post;
@@ -25,9 +24,7 @@ const CarouselImage: React.FC<PostItemProps> = ({ post }: PostItemProps) => {
           })}
         </Carousel>
       ) : (
-        <>
-          <CardMedia component='img' src={Default} alt='default' />
-        </>
+        <></>
       )}
     </>
   );

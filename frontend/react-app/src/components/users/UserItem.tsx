@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getUser, addFollowUser, removeFollowUser } from 'lib/api/users';
-import { type User } from 'interfaces';
+import { type User, type Post } from 'interfaces';
+import { getPosts } from 'lib/api/posts';
+import PostItems from 'components/posts/PostItems';
 
 import Message from './Message';
 import {
@@ -16,11 +18,20 @@ import Avatar from 'boring-avatars';
 
 const UserShow: React.FC = (): JSX.Element => {
   const [user, setUser] = useState<User>();
+  const [posts, setPosts] = useState<Post[]>([]);
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [followingsCount, setFollowingsCount] = useState<number>(0);
   const [followersCount, setFollowersCount] = useState<number>(0);
   const params = useParams<Record<string, string>>();
   const userId = parseInt(params.id ?? '');
+
+  const handleGetPosts = async (): Promise<void> => {
+    const { data } = await getPosts();
+    setPosts(data.posts);
+  };
+  useEffect(() => {
+    void handleGetPosts();
+  }, []);
 
   const handleGetUser = async (): Promise<void> => {
     const { data } = await getUser(userId);
@@ -31,7 +42,7 @@ const UserShow: React.FC = (): JSX.Element => {
     setFollowersCount(data.user.followersCount);
   };
   useEffect(() => {
-    void handleGetUser();
+    void handleGetPosts();
   }, []);
 
   const handleAddFollow = (id: number): void => {
@@ -72,11 +83,6 @@ const UserShow: React.FC = (): JSX.Element => {
         />
         <CardContent>
           <Typography variant='body1' color='testSecondary' component='span'>
-            {isFollowed ? (
-              <h2>フォローしてますか？:はい</h2>
-            ) : (
-              <h2>フォローしてますか？:いいえ</h2>
-            )}
             <Button
               variant='contained'
               onClick={() => {
@@ -88,6 +94,11 @@ const UserShow: React.FC = (): JSX.Element => {
               {isFollowed ? 'フォロー解除' : 'フォローしますか？'}
             </Button>
           </Typography>
+          <PostItems
+            posts={posts}
+            handleGetPosts={() => handleGetPosts}
+            userId={userId}
+          ></PostItems>
         </CardContent>
       </Card>
       <Message userId={userId} />

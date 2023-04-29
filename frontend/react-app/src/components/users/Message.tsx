@@ -24,7 +24,7 @@ const Message = ({ userId }: MessageProps): JSX.Element => {
   };
   useEffect(() => {
     void handleGetMessages(userId);
-  }, []);
+  }, [userId]);
   console.log(messages);
 
   const iso8601ToDateTime = (iso8601: string): string => {
@@ -89,7 +89,10 @@ const Message = ({ userId }: MessageProps): JSX.Element => {
           </Grid>
         </>
       ))}
-      <MessageForm userId={userId} handleGetMessages={handleGetMessages} />
+      <MessageForm
+        userId={userId}
+        handleGetMessages={() => handleGetMessages}
+      />
     </>
   );
 };

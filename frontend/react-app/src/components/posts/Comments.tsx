@@ -28,8 +28,8 @@ import CarouselImage from './CarouselImage';
 
 interface CommentsProps {
   post: Post;
-  index: number;
-  style: React.CSSProperties;
+  // index: number;
+  // style: React.CSSProperties;
 }
 
 const Comments = ({ post }: CommentsProps): JSX.Element => {
@@ -44,6 +44,7 @@ const Comments = ({ post }: CommentsProps): JSX.Element => {
       // console.log(res);
       if (res.status === 200) {
         setComments(res.data.comments);
+        setBody('');
       } else {
         console.log('No comments');
       }
@@ -62,12 +63,13 @@ const Comments = ({ post }: CommentsProps): JSX.Element => {
     const data: any = {
       userId: currentUser?.id,
       postId: post.id,
-      body: body,
+      body,
     };
     try {
       const res = await createComment(post.id, data);
       if (res.status === 201) {
         setComments([...comments, res.data.comment]);
+        setBody('');
       } else {
         console.log('No comments');
       }
@@ -77,8 +79,11 @@ const Comments = ({ post }: CommentsProps): JSX.Element => {
   };
 
   const CommentList = (): JSX.Element => {
-    const renderRow = (props: ListChildComponentProps): JSX.Element => {
-      const { index, style } = props;
+    const renderRow = ({
+      index,
+      style,
+    }: ListChildComponentProps): JSX.Element => {
+      // const { index, style } = props;
       return (
         <ListItem key={index} style={style}>
           <ListItemAvatar>
@@ -154,9 +159,12 @@ const Comments = ({ post }: CommentsProps): JSX.Element => {
                           fullWidth
                           label='コメントを入力'
                           name='body'
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setBody(e.target.value)
-                          }
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            setBody(e.target.value);
+                            void 0;
+                          }}
                           size='small'
                           variant='standard'
                           value={body}
@@ -166,9 +174,11 @@ const Comments = ({ post }: CommentsProps): JSX.Element => {
                           <Button
                             variant='contained'
                             color='primary'
-                            // disabled={body === '' ? }
+                            disabled={body === ''}
                             sx={{ marginLeft: '0.5rem' }}
-                            onClick={handleSubmit}
+                            onClick={(e) => {
+                              void handleSubmit(e);
+                            }}
                           >
                             <SendIcon />
                           </Button>
