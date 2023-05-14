@@ -4,8 +4,8 @@ interface PostLikeResponse {
   isLiked: boolean;
 }
 
-export const getPosts = async (): Promise<AxiosResponse> => {
-  return await client.get('/posts', auth);
+export const getPosts = async (query?: string): Promise<AxiosResponse> => {
+  return await client.get('/posts', { params: { query }, ...auth });
 };
 
 export const createPost = async (data: FormData): Promise<AxiosResponse> => {

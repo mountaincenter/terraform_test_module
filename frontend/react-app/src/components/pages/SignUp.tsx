@@ -8,7 +8,7 @@ import {
   CardHeader,
   Button,
 } from '@mui/material';
-import { AuthContext } from 'App';
+import { AuthContext } from 'providers/AuthProvider';
 import AlertMessage from 'components/utils/AlertMessage';
 import { signUp } from 'lib/api/auth';
 import { type SignUpData } from 'interfaces';

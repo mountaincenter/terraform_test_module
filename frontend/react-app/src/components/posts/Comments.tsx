@@ -23,7 +23,7 @@ import { getComments, createComment } from 'lib/api/posts';
 import Avatar from 'boring-avatars';
 import type { ListChildComponentProps } from 'react-window';
 import { FixedSizeList } from 'react-window';
-import { AuthContext } from 'App';
+import { AuthContext } from 'providers/AuthProvider';
 import CarouselImage from './CarouselImage';
 
 interface CommentsProps {

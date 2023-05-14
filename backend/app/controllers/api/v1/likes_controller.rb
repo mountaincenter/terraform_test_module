@@ -6,7 +6,7 @@ module Api
     # LikesController
     #
     class LikesController < ApplicationController
-      before_action :authenticate_user!
+      # before_action :authenticate_user!
       before_action :set_post, only: %i[create destroy]
 
       def create

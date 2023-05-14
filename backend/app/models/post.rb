@@ -8,4 +8,5 @@ class Post < ApplicationRecord
   mount_uploaders :images, ImageUploader
   validates :content, presence: true, length: { maximum: 140 }
   has_many :likes, dependent: :destroy
+
 end

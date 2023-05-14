@@ -1,12 +1,14 @@
 import React, { useState, useCallback, useContext } from 'react';
-import { TextField, Button, Box, CircularProgress } from '@mui/material';
+import { TextField, Box, CircularProgress } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
+
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import CancelIcon from '@mui/icons-material/Cancel';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { createPost } from '../../lib/api/posts';
-
-import { AuthContext } from 'App';
+import { type User } from 'interfaces';
+import { AuthContext } from 'providers/AuthProvider';
 
 const borderStyles = {
   bgcolor: 'background.paper',
@@ -18,7 +20,7 @@ interface PostFormProps {
 }
 
 const PostForm: React.FC<PostFormProps> = ({ handleGetPosts }) => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext) as { currentUser: User };
   const [content, setContent] = useState<string>('');
   const [images, setImages] = useState<File[]>([]);
   const [isContentSending, setIsContentSending] = useState<boolean>(false);
@@ -31,7 +33,7 @@ const PostForm: React.FC<PostFormProps> = ({ handleGetPosts }) => {
       });
     }
     formData.append('content', content);
-    formData.append('user.id', `${currentUser?.id ?? ''}`);
+    formData.append('user.id', `${currentUser.id}`);
     return formData;
   };
 
@@ -40,7 +42,6 @@ const PostForm: React.FC<PostFormProps> = ({ handleGetPosts }) => {
   ): Promise<void> => {
     e.preventDefault();
     setIsContentSending(true);
-
     const data = createFormData();
     await createPost(data).then(() => {
       setContent('');
@@ -72,52 +73,74 @@ const PostForm: React.FC<PostFormProps> = ({ handleGetPosts }) => {
           void handleCreatePost(e);
         }}
       >
-        <TextField
-          name='content'
-          placeholder='Hello World'
-          variant='outlined'
-          multiline
-          minRows={4}
-          maxRows={20}
-          value={content}
-          disabled={isContentSending}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setContent(e.target.value);
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '1rem',
           }}
-        />
-        <div style={{ marginTop: '10px' }}>
-          <input
-            style={{ display: 'none' }}
-            accept='image/*'
-            id='icon-button-file'
-            type='file'
-            multiple
+        >
+          <TextField
+            name='content'
+            placeholder='Hello World'
+            variant='standard'
+            style={{
+              paddingLeft: '1rem',
+              flexGrow: 1,
+            }}
+            multiline
+            minRows={1}
+            maxRows={5}
+            value={content}
+            disabled={isContentSending}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              uploadImage(e);
+              setContent(e.target.value);
             }}
           />
-          <label htmlFor='icon-button-file'>
-            <IconButton color='inherit' component='span'>
-              <PhotoCameraIcon />
-            </IconButton>
-          </label>
-        </div>
-        {isContentSending ? (
-          <CircularProgress />
-        ) : (
-          <div style={{ marginTop: '10px', marginLeft: 'auto' }}>
-            <Button
-              type='submit'
-              variant='contained'
-              size='large'
-              color='inherit'
-              disabled={content === '' || content.length > 140}
-              sx={{ marginTop: '10px', marginLeft: 'auto' }}
-            >
-              Post
-            </Button>
+          <div style={{ marginTop: '10px' }}>
+            <input
+              style={{ display: 'none' }}
+              accept='image/*'
+              id='icon-button-file'
+              type='file'
+              multiple
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                uploadImage(e);
+              }}
+            />
+            <label htmlFor='icon-button-file'>
+              <IconButton color='inherit' component='span'>
+                <PhotoCameraIcon />
+              </IconButton>
+            </label>
           </div>
-        )}
+          {isContentSending ? (
+            <CircularProgress />
+          ) : (
+            // <div style={{ marginTop: '10px', marginLeft: 'auto' }}>
+            //   <Button
+            //     type='submit'
+            //     variant='contained'
+            //     size='large'
+            //     color='inherit'
+            //     disabled={content === '' || content.length > 140}
+            //     sx={{ marginTop: '10px', marginLeft: 'auto' }}
+            //   >
+            //     Post
+            //   </Button>
+            // </div>
+            <div style={{ marginTop: '10px' }}>
+              <IconButton
+                type='submit'
+                color='inherit'
+                disabled={content === '' || content.length > 140}
+              >
+                <AddCircleIcon />
+              </IconButton>
+            </div>
+          )}
+        </div>
       </form>
       {images.map((image, i) => (
         <Box

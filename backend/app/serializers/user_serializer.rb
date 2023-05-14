@@ -4,7 +4,7 @@
 # User Serializer
 #
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :name,:profile, :email, :followingsCount, :followersCount, :followed?, :uid, :provider, :image
+  attributes :id, :name, :profile, :email, :followingsCount, :followersCount, :followed?, :uid, :provider, :image
   belongs_to :posts
 
   def followingsCount

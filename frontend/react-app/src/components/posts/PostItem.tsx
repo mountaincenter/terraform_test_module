@@ -22,8 +22,8 @@ import { deletePost } from 'lib/api/posts';
 
 import Comments from './Comments';
 import Like from 'components/likes/Like';
-import { AuthContext } from 'App';
-
+import { AuthContext } from 'providers/AuthProvider';
+import { SearchContext } from 'providers/SearchProvider';
 import CarouselImage from './CarouselImage';
 
 const CardStyles = {
@@ -39,7 +39,7 @@ const CardStyles = {
 
 interface PostItemProps {
   post: Post;
-  handleGetPosts: () => void;
+  handleGetPosts: (query: string) => void;
   userId: number | null;
 }
 
@@ -54,10 +54,11 @@ const PostItem = ({
   userId,
 }: PostItemProps): JSX.Element => {
   const { currentUser } = useContext(AuthContext);
+  const { setQuery } = useContext(SearchContext);
   const handleDeletePost = (id: number): void => {
     deletePost(id)
       .then(() => {
-        handleGetPosts();
+        handleGetPosts('');
       })
       .catch((error) => {
         console.error(error);
@@ -88,7 +89,24 @@ const PostItem = ({
                 component='span'
               >
                 {post.content.split('\n').map((body: string, index: number) => {
-                  return <p key={index}>{body}</p>;
+                  return body.split(' ').map((word: string, i: number) => {
+                    if (word.startsWith('#')) {
+                      return (
+                        <span
+                          key={i}
+                          style={{ color: 'blue', cursor: 'pointer' }}
+                          onClick={() => {
+                            setQuery(word);
+                            handleGetPosts(word); // ハッシュタグを検索クエリに設定します
+                          }}
+                        >
+                          {word}{' '}
+                        </span>
+                      );
+                    } else {
+                      return <span key={i}>{word} </span>;
+                    }
+                  });
                 })}
               </Typography>
               <CarouselImage post={post} />

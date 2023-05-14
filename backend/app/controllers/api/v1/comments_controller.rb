@@ -4,7 +4,7 @@ module Api
     # comments controller
     #
     class CommentsController < ApplicationController
-      before_action :authenticate_api_v1_user!
+      # before_action :authenticate_api_v1_user!
 
       def index
         @comments = Comment.where(post_id: params[:post_id])
