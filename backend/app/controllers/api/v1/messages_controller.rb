@@ -1,7 +1,7 @@
 module Api
   module V1
     class MessagesController < ApplicationController
-      before_action :authenticate_api_v1_user!
+      # before_action :authenticate_api_v1_user!
       before_action :set_recipient, only: %i[index create]
 
       def index

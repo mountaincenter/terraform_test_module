@@ -54,11 +54,22 @@ export interface Follow {
   followed: UserProps;
 }
 
-export interface Post {
+export interface PostData {
   id: number;
   content: string;
   images: Image[];
-  user: UserProps;
+  user: {
+    id: number;
+    name?: string;
+    email?: string;
+    profile?: string;
+    followingsCount?: number;
+    followersCount?: number;
+    followed?: boolean;
+  };
+}
+
+export interface Post extends PostData {
   createdAt?: any;
   likesCount: number;
   liked: boolean;

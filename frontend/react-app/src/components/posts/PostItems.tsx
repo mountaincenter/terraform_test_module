@@ -3,7 +3,7 @@ import { type Post } from 'interfaces';
 
 interface PostItemsProps {
   posts: Post[];
-  handleGetPosts: () => void;
+  handleGetPosts: (query: string) => void;
   userId: number | null;
 }
 
@@ -19,7 +19,9 @@ const PostItems = ({
           <PostItem
             key={post.id}
             post={post}
-            handleGetPosts={() => handleGetPosts}
+            handleGetPosts={(query) => {
+              handleGetPosts(query);
+            }}
             userId={userId}
           />
         ))

@@ -4,7 +4,7 @@ module Api
     # Users Controller
     #
     class UsersController < ApplicationController
-      before_action :authenticate_api_v1_user!
+      # before_action :authenticate_api_v1_user!
       before_action :set_user, only: %i[show update]
 
       def index

@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import Cookies from 'js-cookie';
-import { AuthContext } from 'App';
+import { AuthContext } from 'providers/AuthProvider';
 import AlertMessage from 'components/utils/AlertMessage';
 import { type SignInData } from 'interfaces';
 import { signIn, guestSignIn } from 'lib/api/auth';
@@ -44,7 +44,7 @@ const SignIn: React.FC = () => {
         console.log(res);
         setCurrentUser(res.data.data);
 
-        navigate('/bodies');
+        navigate('/');
         console.log('Signed in successfully!');
       } else {
         setAlertMessageOpen(true);

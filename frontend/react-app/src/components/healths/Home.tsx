@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { getHealths } from 'lib/api/healths';
 // import HealthForm from './HealthForm';
 import { type Health, type User } from 'interfaces';
-import { AuthContext } from 'App';
+import { AuthContext } from 'providers/AuthProvider';
 import {
   Table,
   TableBody,

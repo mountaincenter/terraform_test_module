@@ -4,7 +4,7 @@ module Api
     # HealthsController
     #
     class HealthsController < ApplicationController
-      before_action :authenticate_api_v1_user!
+      # before_action :authenticate_api_v1_user!
 
       def index
         healths = Health.where(user_id: current_api_v1_user.id).order(date: :asc)

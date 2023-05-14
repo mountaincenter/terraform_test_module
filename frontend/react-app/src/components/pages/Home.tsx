@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { AuthContext } from 'App';
-import HealthHome from 'components/healths/Home';
+import { AuthContext } from 'providers/AuthProvider';
+// import HealthHome from 'components/healths/Home';
+import PostList from 'components/posts/PostList';
 
 const Home: React.FC = () => {
   const { isSignedIn, currentUser } = useContext(AuthContext);
@@ -8,7 +9,7 @@ const Home: React.FC = () => {
     <>
       {isSignedIn && currentUser != null ? (
         <>
-          <HealthHome />
+          <PostList />
         </>
       ) : (
         <>

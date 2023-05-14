@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { Grid, TextField, Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { createMessage } from 'lib/api/users';
-import { AuthContext } from 'App';
+import { AuthContext } from 'providers/AuthProvider';
 import PropTypes from 'prop-types';
 
 interface MessageFormProps {

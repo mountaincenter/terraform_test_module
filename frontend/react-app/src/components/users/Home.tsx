@@ -16,7 +16,7 @@ import {
   TextField,
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { AuthContext } from 'App';
+import { AuthContext } from 'providers/AuthProvider';
 import { updateUser } from 'lib/api/users';
 
 import UsersList from 'components/users/UsersList';

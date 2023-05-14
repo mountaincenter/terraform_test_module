@@ -6,7 +6,7 @@ module Api
     # FollowsController
     #
     class FollowsController < ApplicationController
-      before_action :authenticate_user!
+      # before_action :authenticate_user!
       before_action :set_user, only: %i[create destroy]
       before_action :set_follow, only: [:destroy]
 

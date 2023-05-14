@@ -9,11 +9,15 @@ module Api
     # Post Controller
     #
     class PostsController < ApplicationController
-      before_action :authenticate_api_v1_user!
+      # before_action :authenticate_api_v1_user!
       before_action :set_post, only: %i[show destroy]
 
       def index
-        posts = Post.includes(:user).order(created_at: :desc).limit(20)
+        if params[:query].present?
+          posts = Post.where('content Like ?', "%#{params[:query]}%")
+        else
+          posts = Post.includes(:user).order(created_at: :desc).limit(20)
+        end
         render json: posts, each_serializer: PostSerializer, scope: current_api_v1_user
       end
 
