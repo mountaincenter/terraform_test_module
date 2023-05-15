@@ -61,11 +61,11 @@ const SignIn: React.FC = () => {
     try {
       const res = await guestSignIn();
       console.log(res.data);
-      // console.log(res.data.headers['access-token']);
+      const { access_token: accessToken, client, uid } = res.data;
       if (res.status === 200) {
-        Cookies.set('_access_token', res.headers['access-token'] ?? '');
-        Cookies.set('_client', res.headers.client ?? '');
-        Cookies.set('_uid', res.headers.uid ?? '');
+        Cookies.set('_access_token', accessToken ?? '');
+        Cookies.set('_client', client ?? '');
+        Cookies.set('_uid', uid ?? '');
         setIsSignedIn(true);
         setCurrentUser(res.data.user);
         navigate('/');
