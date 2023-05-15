@@ -11,12 +11,20 @@ module Api
           end
         end
 
-
         def guest_sign_in
-          @resource = User.guest
-          @token = @resource.create_new_auth_token
-          @resource.save!
-          render_create_success
+          user = User.guest
+          tokens = user.create_new_auth_token
+          response.headers['access-token'] = tokens['access-token']
+          response.headers['client'] = tokens['client']
+          response.headers['uid'] = tokens['uid']
+
+          render json: {
+            status: 200,
+            user: user,
+            access_token: tokens['access-token'],
+            client: tokens['client'],
+            uid: tokens['uid']
+          }
         end
 
       end

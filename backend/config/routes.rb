@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       namespace :auth do
         resources :sessions, only: %i[index]
         get 'validate_token', to: 'token_validations#validate_token'
+        post 'guest_sign_in', to: 'sessions#guest_sign_in'
       end
       resources :posts, only: %i[index create destroy show] do
         resource :likes, only: %i[create destroy]
