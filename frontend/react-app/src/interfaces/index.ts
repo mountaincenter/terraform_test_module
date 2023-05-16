@@ -1,5 +1,6 @@
 export interface SignUpData {
   name: string;
+  username: string;
   email: string;
   password: string;
   passwordConfirmation: string;
@@ -13,6 +14,7 @@ export interface SignInData {
 export interface UserProps {
   id: number;
   name: string;
+  username: string;
   email: string;
   height?: number;
   target_weight?: number;
@@ -35,6 +37,7 @@ export interface User extends UserProps {
 export interface UpdateUserData {
   id: number;
   name?: string;
+  username?: string;
   image?: string;
 }
 
@@ -69,10 +72,17 @@ export interface PostData {
   };
 }
 
-export interface Post extends PostData {
+export interface Post extends PostData, OGP {
   createdAt?: any;
   likesCount: number;
   liked: boolean;
+}
+
+export interface OGP {
+  ogpDescription?: string;
+  ogpImage?: string;
+  ogpTitle?: string;
+  ogpUrl?: string;
 }
 
 export interface Image {

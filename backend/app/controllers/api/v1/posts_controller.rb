@@ -11,6 +11,7 @@ module Api
     class PostsController < ApplicationController
       # before_action :authenticate_api_v1_user!
       before_action :set_post, only: %i[show destroy]
+      include OgpHelper
 
       def index
         if params[:query].present?
@@ -27,6 +28,21 @@ module Api
 
       def create
         post = Post.new(post_params)
+        if post.content.present?
+          urls = URI.extract(post.content, ['http', 'https'])
+          if urls.present?
+            begin
+              ogp = OgpHelper.fetch_ogp(urls.first)
+              post.ogp_title = ogp[:title]
+              post.ogp_url = ogp[:url]
+              post.ogp_image = ogp[:image]
+              post.ogp_description = ogp[:description]
+            rescue StandardError => e
+              Rails.logger.error  "Failed to fetch OGP info: #{e.message}"
+              raise e
+            end
+          end
+        end
         if post.save
           render json: post
         else

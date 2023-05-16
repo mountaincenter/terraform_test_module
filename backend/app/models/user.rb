@@ -9,7 +9,13 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
+  before_validation :prepend_at_to_username, on: :create
 
+  validates :username, presence: true,
+                       uniqueness: { case_sensitive: false },
+                       length: { in: 6..16 },
+                       format: { with: /\A@[a-zA-Z0-9_]+\z/,
+                                 message: "can only include letters, numbers, and underscores and must start with @" }
   validates :name, presence: true, length: { maximum: 30 }
   validates :email, presence: true, length: { maximum: 100 }
 
@@ -36,4 +42,11 @@ class User < ActiveRecord::Base
       user.password = SecureRandom.urlsafe_base64
     end
   end
+
+  private
+
+  def prepend_at_to_username
+    self.username = "@#{username}" unless username.start_with?("@")
+  end
+
 end

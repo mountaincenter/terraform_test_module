@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_23_071129) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_15_131852) do
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body"
     t.bigint "user_id", null: false
@@ -69,6 +69,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_071129) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ogp_title"
+    t.string "ogp_url"
+    t.string "ogp_image"
+    t.text "ogp_description"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -85,6 +89,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_23_071129) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "name"
+    t.string "username"
     t.string "nickname"
     t.string "image"
     t.string "email"
