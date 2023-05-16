@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Avatar from 'boring-avatars';
 import {
@@ -9,6 +9,12 @@ import {
   IconButton,
   Divider,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
 } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -25,6 +31,8 @@ import Like from 'components/likes/Like';
 import { AuthContext } from 'providers/AuthProvider';
 import { SearchContext } from 'providers/SearchProvider';
 import CarouselImage from './CarouselImage';
+import OGPDisplay from './OGPDisplay';
+import PostContent from './PostContent';
 
 const CardStyles = {
   width: 400,
@@ -55,6 +63,9 @@ const PostItem = ({
 }: PostItemProps): JSX.Element => {
   const { currentUser } = useContext(AuthContext);
   const { setQuery } = useContext(SearchContext);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+
   const handleDeletePost = (id: number): void => {
     deletePost(id)
       .then(() => {
@@ -64,11 +75,22 @@ const PostItem = ({
         console.error(error);
       });
   };
+
+  const handleUserMentionClick = (userId: number): void => {
+    setSelectedUserId(userId);
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = (): void => {
+    setDialogOpen(false);
+    setSelectedUserId(null);
+  };
+
   return (
     <>
       {userId === null || userId === post.user.id ? (
         <>
-          <Card sx={{ ...CardStyles }}>
+          <Card sx={CardStyles}>
             <Link to={`/users/${post.user.id}`} style={customStyle}>
               <CardHeader
                 avatar={<Avatar name={post.user.name} variant='beam' />}
@@ -88,33 +110,22 @@ const PostItem = ({
                 color='textSecondary'
                 component='span'
               >
-                {post.content.split('\n').map((body: string, index: number) => {
-                  return body.split(' ').map((word: string, i: number) => {
-                    if (word.startsWith('#')) {
-                      return (
-                        <span
-                          key={i}
-                          style={{ color: 'blue', cursor: 'pointer' }}
-                          onClick={() => {
-                            setQuery(word);
-                            handleGetPosts(word); // ハッシュタグを検索クエリに設定します
-                          }}
-                        >
-                          {word}{' '}
-                        </span>
-                      );
-                    } else {
-                      return <span key={i}>{word} </span>;
-                    }
-                  });
-                })}
+                <PostContent
+                  content={post.content}
+                  setQuery={setQuery}
+                  handleGetPosts={(query: string) => {
+                    handleGetPosts(query);
+                  }}
+                  handleUserMentionClick={handleUserMentionClick}
+                />
               </Typography>
+              {post.ogpUrl !== null ? <OGPDisplay ogp={post} /> : null}
               <CarouselImage post={post} />
             </CardContent>
             <CardActions disableSpacing>
               <Comments post={post} />
               <Like post={post} />
-              {currentUser?.id === post.user.id ? (
+              {currentUser?.id === post.user.id && (
                 <IconButton
                   sx={{ marginLeft: 'auto' }}
                   onClick={() => {
@@ -123,12 +134,21 @@ const PostItem = ({
                 >
                   <DeleteIcon />
                 </IconButton>
-              ) : (
-                <></>
               )}
             </CardActions>
           </Card>
           <Divider />
+          <Dialog open={dialogOpen} onClose={handleDialogClose}>
+            <DialogTitle>User Information</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Display user information here for user with ID: {selectedUserId}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleDialogClose}>Close</Button>
+            </DialogActions>
+          </Dialog>
         </>
       ) : (
         <></>

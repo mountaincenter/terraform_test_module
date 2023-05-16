@@ -13,7 +13,7 @@ const PostList: React.FC = (): JSX.Element => {
   const handleGetPosts = async (query?: string): Promise<void> => {
     const { data } = await getPosts(query);
     setPosts(data.posts);
-    // console.log(data.posts);
+    console.log(data.posts);
   };
   useEffect(() => {
     void handleGetPosts();

@@ -17,6 +17,7 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
   const [name, setName] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
@@ -28,6 +29,7 @@ const SignUp: React.FC = () => {
     e.preventDefault();
     const params: SignUpData = {
       name,
+      username,
       email,
       password,
       passwordConfirmation,
@@ -68,6 +70,17 @@ const SignUp: React.FC = () => {
               margin='dense'
               onChange={(event) => {
                 setName(event.target.value);
+              }}
+            />
+            <TextField
+              variant='outlined'
+              required
+              fullWidth
+              label='UserName'
+              value={username}
+              margin='dense'
+              onChange={(event) => {
+                setUsername(event.target.value);
               }}
             />
             <TextField
@@ -115,6 +128,7 @@ const SignUp: React.FC = () => {
               color='inherit'
               disabled={
                 name === '' ||
+                username === '' ||
                 email === '' ||
                 password === '' ||
                 passwordConfirmation === ''

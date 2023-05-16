@@ -4,7 +4,7 @@
 # Post Serializer
 #
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :content, :images, :liked?, :likes_count, :created_at
+  attributes :id, :content, :images, :liked?, :likes_count, :created_at, :ogp_title, :ogp_url, :ogp_image, :ogp_description
   belongs_to :user
   has_many :likes
 
